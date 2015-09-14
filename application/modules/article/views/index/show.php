@@ -10,6 +10,7 @@ $imageSource = $article->getArticleImageSource();
 $preview = $this->getRequest()->getParam('preview');
 $config = \Ilch\Registry::get('config');
 $date = new \Ilch\Date($article->getDateCreated());
+$commentsCount = $commentMapper->getCountComments('article/index/show/id/'.$article->getId());
 
 function rec($id, $uid, $req, $obj)
 {
@@ -17,8 +18,6 @@ function rec($id, $uid, $req, $obj)
     $userMapper = new \Modules\User\Mappers\User();
     $fk_comments = $CommentMappers->getCommentsByFKId($id);
     $user_rep = $userMapper->getUserById($uid);
-    $translator = new \Ilch\Translator();
-    $translator->load(APPLICATION_PATH.'/modules/article/translations/');
     $config = \Ilch\Registry::get('config');
 
     foreach ($fk_comments as $fk_comment) {
@@ -31,29 +30,32 @@ function rec($id, $uid, $req, $obj)
 
         $col = 10 - $req;
         echo '<article class="row" id="'.$fk_comment->getId().'">';
-        echo '<div class="col-md-2 col-sm-2 col-md-offset-'.$req.' col-sm-offset-'.$req.' hidden-xs">';
         if ($config->get('comment_avatar') == 1) {
-            echo '<figure class="thumbnail">';
+            echo '<div class="col-md-2 col-sm-2 col-md-offset-'.$req.' col-sm-offset-'.$req.' hidden-xs">';
+            echo '<figure class="thumbnail" title="'.$user->getName().'">';
             echo '<a href="'.$obj->getUrl(array('module' => 'user', 'controller' => 'profil', 'action' => 'index', 'user' => $user->getId())).'"><img class="img-responsive" src="'.$obj->getBaseUrl($user->getAvatar()).'" alt="'.$user->getName().'"></a>';
             echo '</figure>';
+            echo '</div>';
+            echo '<div class="col-md-'.$col.' col-sm-'.$col.'">';
+        } else {
+            $col = $col + 2;
+            echo '<div class="col-md-'.$col.' col-sm-'.$col.' col-md-offset-'.$req.' col-sm-offset-'.$req.'">';
         }
-        echo '</div>';
-        echo '<div class="col-md-'.$col.' col-sm-'.$col.'">';
-        echo '<div class="panel panel-default arrow left">';
+        echo '<div class="panel panel-default">';
         echo '<div class="panel-bodylist">';
         echo '<div class="panel-heading right"><i class="fa fa-reply"></i> '.$user_rep->getName().'</div>';
         echo '<header class="text-left">';
         echo '<div class="comment-user">';
-        echo '<i class="fa fa-user"></i> <a href="'.$obj->getUrl(array('module' => 'user', 'controller' => 'profil', 'action' => 'index', 'user' => $fk_comment->getUserId())).'">'.$user->getName().'</a>';
+        echo '<i class="fa fa-user" title="'.$obj->getTrans('commentUser').'"></i> <a href="'.$obj->getUrl(array('module' => 'user', 'controller' => 'profil', 'action' => 'index', 'user' => $fk_comment->getUserId())).'">'.$user->getName().'</a>';
         echo '</div>';
         if ($config->get('comment_date') == 1) {
-            echo '<time class="comment-date"><i class="fa fa-clock-o" title="'.$translator->trans('date').'"></i> '.$commentDate->format("d.m.Y - H:i", true).'</time>';
+            echo '<time class="comment-date"><i class="fa fa-clock-o" title="'.$obj->getTrans('commentDateTime').'"></i> '.$commentDate->format("d.m.Y - H:i", true).'</time>';
         }
         echo '</header>';
         echo '<div class="comment-post"><p>'.nl2br($fk_comment->getText()).'</p></div>';
 
         if ($config->get('comment_reply') == 1) {
-            echo '<p class="text-right"><a href="'.$obj->getUrl(array('module' => 'comment', 'controller' => 'index', 'action' => 'index', 'id' => $fk_comment->getId())).'" class="btn btn-default btn-sm"><i class="fa fa-reply"></i> '.$translator->trans('reply').'</a></p>';
+            echo '<p class="text-right"><a href="'.$obj->getUrl(array('module' => 'comment', 'controller' => 'index', 'action' => 'index', 'id' => $fk_comment->getId(), 'id_a' => $obj->getRequest()->getParam('id'))).'" class="btn btn-default btn-sm"><i class="fa fa-reply"></i> '.$obj->getTrans('reply').'</a></p>';
         }
 
         echo '</div>';
@@ -82,7 +84,7 @@ function rec($id, $uid, $req, $obj)
 }
 ?>
 
-<div class="col-lg-12" style="padding-left: 0px;">
+<div class="col-lg-12 hidden-xs" style="padding-left: 0px;">
     <div class="col-lg-8" style="padding-left: 0px;">
         <h4><a href="<?=$this->getUrl(array('controller' => 'cats', 'action' => 'show', 'id' => $article->getCatId())) ?>"><?=$articlesCats->getName() ?></a></h4>
     </div>
@@ -111,9 +113,9 @@ function rec($id, $uid, $req, $obj)
         <?php endif; ?>
     <?php endif; ?>
     <i class="fa fa-calendar" title="<?=$this->getTrans('date') ?>"></i> <a href="<?=$this->getUrl(array('controller' => 'archive', 'action' => 'show', 'year' => $date->format("Y", true), 'month' => $date->format("m", true))) ?>"><?=$date->format('d. F Y', true) ?></a>
-    &nbsp;&nbsp;<i class="fa fa-clock-o" title="<?=$this->getTrans('clock') ?>"></i> <?=$date->format('H:i', true) ?>
+    &nbsp;&nbsp;<i class="fa fa-clock-o" title="<?=$this->getTrans('time') ?>"></i> <?=$date->format('H:i', true) ?>
     &nbsp;&nbsp;<i class="fa fa-folder-open-o" title="<?=$this->getTrans('cats') ?>"></i> <a href="<?=$this->getUrl(array('controller' => 'cats', 'action' => 'show', 'id' => $article->getCatId())) ?>"><?=$articlesCats->getName() ?></a>
-    &nbsp;&nbsp;<i class="fa fa-comment-o" title="<?=$this->getTrans('comments') ?>"></i> <a href="<?=$this->getUrl(array('action' => 'show', 'id' => $article->getId().'#comment')) ?>"><?=count($comments) ?></a>
+    &nbsp;&nbsp;<i class="fa fa-comment-o" title="<?=$this->getTrans('comments') ?>"></i> <a href="<?=$this->getUrl(array('action' => 'show', 'id' => $article->getId().'#comment')) ?>"><?=$commentsCount ?></a>
     &nbsp;&nbsp;<i class="fa fa-eye" title="<?=$this->getTrans('hits') ?>"></i> <?=$article->getVisits() ?>
 </div>
 
@@ -122,33 +124,40 @@ function rec($id, $uid, $req, $obj)
 <?php if(empty($preview)): ?>
     <?php $userMapper = new \Modules\User\Mappers\User(); ?>
     <?php $nowDate = new \Ilch\Date(); ?>
+    <?php $col = 10; ?>
+    <?php if ($config->get('comment_avatar') == 0) { $col = $col +2; }; ?>
     <div class="row">
         <div class="col-md-12">
-            <h3 class="page-header" id="comment"><?=$this->getTrans('comments') ?> (<?=count($comments) ?>)</h3>
+            <legend class="page-header" id="comment"><?=$this->getTrans('comments') ?> (<?=$commentsCount ?>)</legend>
             <?php if($this->getUser()): ?>
                 <form action="" class="form-horizontal" method="POST">
                     <?=$this->getTokenField() ?>
                     <section class="comment-list">
                         <article class="row">
-                            <div class="col-md-2 col-sm-2 hidden-xs">
-                                <figure class="thumbnail">
-                                    <a href="<?=$this->getUrl('user/profil/index/user/'.$this->getUser()->getId()) ?>"><img class="img-responsive" src="<?=$this->getUrl().'/'.$this->getUser()->getAvatar() ?>" alt="<?=$this->getUser()->getName() ?>"></a>
-                                </figure>
-                            </div>
-                            <div class="col-md-10 col-sm-10">
-                                <div class="panel panel-default arrow left">
+                            <?php if ($config->get('comment_avatar') == 1): ?>
+                                <div class="col-md-2 col-sm-2 hidden-xs">
+                                    <figure class="thumbnail" title="<?=$this->getUser()->getName() ?>">
+                                        <a href="<?=$this->getUrl('user/profil/index/user/'.$this->getUser()->getId()) ?>"><img class="img-responsive" src="<?=$this->getUrl().'/'.$this->getUser()->getAvatar() ?>" alt="<?=$this->getUser()->getName() ?>"></a>
+                                    </figure>
+                                </div>
+                            <?php endif; ?>
+                            <div class="col-md-<?=$col ?> col-sm-<?=$col ?>">
+                                <div class="panel panel-default">
                                     <div class="panel-body">
                                         <header class="text-left">
                                             <div class="comment-user">
-                                                <i class="fa fa-user"></i> <a href="<?=$this->getUrl(array('module' => 'user', 'controller' => 'profil', 'action' => 'index', 'user' => $this->getUser()->getId())) ?>"><?=$this->getUser()->getName() ?></a>
+                                                <i class="fa fa-user" title="<?=$this->getTrans('commentUser') ?>"></i> <a href="<?=$this->getUrl(array('module' => 'user', 'controller' => 'profil', 'action' => 'index', 'user' => $this->getUser()->getId())) ?>"><?=$this->getUser()->getName() ?></a>
                                             </div>
-                                            <time class="comment-date"><i class="fa fa-clock-o" title="<?=$this->getTrans('date') ?>"></i> <?=$nowDate->format("d.m.Y - H:i", true) ?></time>
+                                            <?php if ($config->get('comment_date') == 1): ?>
+                                                <time class="comment-date"><i class="fa fa-clock-o" title="<?=$this->getTrans('commentDateTime') ?>"></i> <?=$nowDate->format("d.m.Y - H:i", true) ?></time>
+                                            <?php endif; ?>
                                         </header>
                                         <div class="comment-post">
                                             <p>
                                                 <textarea class="form-control"
                                                           accesskey=""
                                                           name="article_comment_text"
+                                                          style="resize: vertical"
                                                           required></textarea>
                                             </p>
                                         </div>
@@ -170,19 +179,23 @@ function rec($id, $uid, $req, $obj)
                 <?php $commentDate = new \Ilch\Date($comment->getDateCreated()); ?>
                 <section class="comment-list">
                     <article class="row" id="<?=$comment->getId() ?>">
-                        <div class="col-md-2 col-sm-2 hidden-xs">
-                            <figure class="thumbnail">
-                                <a href="<?=$this->getUrl('user/profil/index/user/'.$user->getId()) ?>"><img class="img-responsive" src="<?=$this->getUrl().'/'.$user->getAvatar() ?>" alt="<?=$this->escape($user->getName()) ?>"></a>
-                            </figure>
-                        </div>
-                        <div class="col-md-10 col-sm-10">
-                            <div class="panel panel-default arrow left">
+                        <?php if ($config->get('comment_avatar') == 1): ?>
+                            <div class="col-md-2 col-sm-2 hidden-xs">
+                                <figure class="thumbnail" title="<?=$this->getUser()->getName() ?>">
+                                    <a href="<?=$this->getUrl('user/profil/index/user/'.$user->getId()) ?>"><img class="img-responsive" src="<?=$this->getUrl().'/'.$user->getAvatar() ?>" alt="<?=$this->escape($user->getName()) ?>"></a>
+                                </figure>
+                            </div>
+                            <?php endif; ?>
+                        <div class="col-md-<?=$col ?> col-sm-<?=$col ?>">
+                            <div class="panel panel-default">
                                 <div class="panel-bodylist">
                                     <header class="text-left">
                                         <div class="comment-user">
-                                            <i class="fa fa-user"></i> <a href="<?=$this->getUrl(array('module' => 'user', 'controller' => 'profil', 'action' => 'index', 'user' => $user->getId())) ?>"><?=$this->escape($user->getName()) ?></a>
+                                            <i class="fa fa-user" title="<?=$this->getTrans('commentUser') ?>"></i> <a href="<?=$this->getUrl(array('module' => 'user', 'controller' => 'profil', 'action' => 'index', 'user' => $user->getId())) ?>"><?=$this->escape($user->getName()) ?></a>
                                         </div>
-                                        <time class="comment-date"><i class="fa fa-clock-o" title="<?=$this->getTrans('date') ?>"></i> <?=$commentDate->format("d.m.Y - H:i", true) ?></time>
+                                        <?php if ($config->get('comment_date') == 1): ?>
+                                            <time class="comment-date"><i class="fa fa-clock-o" title="<?=$this->getTrans('commentDateTime') ?>"></i> <?=$commentDate->format("d.m.Y - H:i", true) ?></time>
+                                        <?php endif; ?>
                                     </header>
                                     <div class="comment-post"><p><?=nl2br($this->escape($comment->getText())) ?></p></div>
                                     <?php if ($config->get('comment_reply') == 1): ?>
