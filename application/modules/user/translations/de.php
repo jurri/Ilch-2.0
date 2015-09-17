@@ -123,6 +123,9 @@ return array
     'settingsRegistVariablesComfirm' => 'Bestätigungs Button zum Abschließen',
     'yes' => 'Ja',
     'no' => 'Nein',
+    'acceptUserRegisFacebook' => 'Login mit Facebook erlauben?',
+    'acceptUserRegisGoogle' => 'Login mit google+ erlauben?',
+    'acceptUserRegisTwitter' => 'Login mit twitter erlauben?',
 
     'menuLogin' => 'Login',
     'menuForgotPassword' => 'Passwort vergessen?',
@@ -146,6 +149,8 @@ return array
     'hello' => 'Hallo',
     'adminarea' => 'Adminbereich',
     'register' => 'Registrieren',
+    'menuLoginWith' => 'Login mit',
+    'or' => 'oder',
 
     'profileNewPassword' => 'Neues Passwort',
     'profileNewPasswordRetype' => 'Wiederholen des Passworts',
