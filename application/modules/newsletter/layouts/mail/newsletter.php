@@ -191,7 +191,8 @@
                                 <td>
                                     <p class="small text-muted">{date}</p>
                                     <p>&nbsp;</p>
-                                    {content}
+                                    <p><b>{subject}</b></p>
+                                    <p>{content}</p>
                                 </td>
                             </tr>
                         </table>
@@ -210,6 +211,7 @@
                 <td class="container">
                     <div class="content" align="center">
                         <p>{footer}</p>
+                        <p>{unreadable}</p>
                         <p>{unsubscribe}</p>
                     </div>
                 </td>

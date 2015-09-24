@@ -66,8 +66,9 @@
             <?=$this->getTrans('message') ?>*
         </label>
         <div class="col-lg-8">
-            <textarea id="ilch_bbcode"
-                      class="form-control"
+            <textarea id="ck_1"
+                      class="form-control ckeditor"
+                      toolbar="ilch_bbcode"
                       name="text"
                       required>
                 <?=$this->get('post')['text'] ?>
@@ -116,10 +117,3 @@
         </div>
     </div>
 </form>
-
-<style>
-.captcha {
-    padding-left: 15px !important;
-    padding-right: 15px !important;
-}
-</style>

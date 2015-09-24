@@ -20,7 +20,7 @@
     </div>
     <div class="form-group">
         <label for="maintenanceDateTime" class="col-md-2 control-label">
-            <?=$this->getTrans('maintenanceDateTime') ?>:
+            <?=$this->getTrans('maintenanceEndDateTime') ?>:
         </label>
         <div class="col-lg-2 input-group date form_datetime">
             <input class="form-control"
@@ -49,9 +49,10 @@
             <?=$this->getTrans('maintenanceText') ?>:
         </label>
         <div class="col-lg-10">
-            <textarea class="form-control"
+            <textarea class="form-control ckeditor"
                       name="maintenanceText"
-                      id="ilch_html"
+                      id="ck_1"
+                      toolbar="ilch_html"
                       rows="5"><?=$this->escape($this->get('maintenanceText')) ?></textarea>
         </div>
     </div>
