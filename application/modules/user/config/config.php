@@ -106,6 +106,7 @@ CREATE TABLE IF NOT EXISTS `[prefix]_users` (
     `date_last_activity` datetime NOT NULL,
     `confirmed` int(11) DEFAULT 1,
     `confirmed_code` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+    `strregist` varchar(255) DEFAULT 'HP',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
 
@@ -172,6 +173,17 @@ CREATE TABLE IF NOT EXISTS `[prefix]_profile_trans` (
     `locale` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
     `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `[prefix]_config` (`key`, `value`, `autoload`) VALUES
+("facebook_login", "0", 0),
+("facebook_appID", "", 0),
+("facebook_appSecret", "", 0),
+("google_login", "0", 0),
+("google_appID", "", 0),
+("google_appSecret", "", 0),
+("twitter_login", "0", 0),
+("twitter_appID", "", 0),
+("twitter_appSecret", "", 0);
 SQL;
     }
 }
