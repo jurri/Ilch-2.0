@@ -19,6 +19,12 @@ return array
     'onlineGuest' => 'Gäste',
     'onlineUser' => 'User',
 
+    'totalUsers' => 'Mitglieder',
+    'lastUser' => 'Neuste Mitglied',
+    'siteOnlineSince' => 'Seite Online seit',
+    'IlchCMSVersion' => 'Ilch CMS Version',
+    'totalArticles' => 'Artikel',
+    'totalComments' => 'Kommentare',
     'statOnline' => 'Online',
     'statToday' => 'Heute',
     'statYesterday' => 'Gestern',
