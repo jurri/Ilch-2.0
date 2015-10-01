@@ -51,7 +51,7 @@
 // Sie könnten die Trennung über den Klick auf eine Schaltfläche auslösen.
     $('#revokeButton').click(disconnectUser);
 </script>
-
+<?php $config = \Ilch\Registry::get('config'); ?>
 <?php if($this->getUser() == null): ?>
 <div class="panel panel-info">
     <div class="panel-heading">
@@ -60,7 +60,7 @@
     <div class="panel-body">
         <div class="row">
             <div class="col-md-4" >
-                
+                <?php if ($config->get('google_login') == 1): ?>
                 <span id="signinButton">
                     <span
                       class="g-signin"
@@ -71,10 +71,14 @@
                       data-scope="https://www.googleapis.com/auth/plus.login">
                     </span>
                 </span>
-                
-                <a href="#"><img src="<?=$this->getModuleUrl('static/images/facebook/fb.png') ?>"/></a><br/>
                 <a href="#"><img src="<?=$this->getModuleUrl('static/images/google/gplus.png') ?>" /></a><br/>
+                <?php endif; ?>
+                <?php if ($config->get('facebook_login') == 1): ?>
+                <a href="#"><img src="<?=$this->getModuleUrl('static/images/facebook/fb.png') ?>"/></a><br/>
+                <?php endif; ?>
+                <?php if ($config->get('twitter_login') == 1): ?>
                 <a href="#"><img src="<?=$this->getModuleUrl('static/images/twitter/tw.png') ?>" /></a>
+                <?php endif; ?>
             </div>
             <div class="col-md-8" style="border-left:1px solid #ccc;height:160px">
                 <div class="col-md-12">
