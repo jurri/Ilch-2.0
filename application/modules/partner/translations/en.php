@@ -23,4 +23,8 @@ return array
     'setfree' => 'Set free',
     'entrys' => 'Entries',
     'addButton' => 'Entry',
+    'httpOrMedia' => 'http:// or Media',
+    'captcha' => 'Captcha',
+    'invalidCaptcha' => 'Captcha is false',
+    'captchaRead' => 'Not readable? Change text!',
 );
