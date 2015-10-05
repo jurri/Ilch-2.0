@@ -34,7 +34,18 @@
     left: 4px;
 }
 
-.date {
-    padding-left: 15px !important;
-    padding-right: 15px !important;
+.partnersslider .bx-wrapper {
+    margin: 0px;
+}
+.partnersslider .bx-viewport {
+    border: 0px;
+    box-shadow: none !important;
+    left: 0px;
+}
+.partnersslider .bx-viewport ul {
+    margin-left: -36px;
+}
+.partnersslider .bx-viewport li {
+    margin-bottom: 10px;
+    border-bottom-width: 0px !important;
 }
