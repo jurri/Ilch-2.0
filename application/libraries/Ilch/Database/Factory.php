@@ -6,15 +6,14 @@
 
 namespace Ilch\Database;
 
-defined('ACCESS') or die('no direct access');
-
 class Factory
 {
     /**
      * Gets database adapter by config.
      *
      * @param  \Ilch\Config\File $config
-     * @return \Ilch\Database\*|boolean The database object or false if config is not set.
+     * @return \Ilch\Database\Mysql The database object
+     * @throws \RuntimeException
      */
     public function getInstanceByConfig(\Ilch\Config\File $config)
     {
@@ -23,6 +22,9 @@ class Factory
         }
 
         $dbClass = '\\Ilch\\Database\\'.$dbData['dbEngine'];
+        if (!class_exists($dbClass)) {
+            throw new \RuntimeException('Invalid database engine ' . $dbData['dbEngine']);
+        }
         $db = new $dbClass();
         $hostParts = explode(':', $dbData['dbHost']);
         $port = null;
@@ -42,7 +44,7 @@ class Factory
      * Gets database adapter by engine name.
      *
      * @param  string           $engine
-     * @return \Ilch\Database\*
+     * @return \Ilch\Database\MySql
      */
     public function getInstanceByEngine($engine)
     {

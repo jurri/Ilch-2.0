@@ -4,7 +4,7 @@
  * @package ilch
  */
 
-if(!version_compare(phpversion(), '5.4.0', '>=')) {
+if (!version_compare(phpversion(), '5.4.0', '>=')) {
     die('Ilch CMS 2.* needed minimum php version 5.4.0');
 }
 
@@ -43,6 +43,10 @@ $loader->registNamespace('Thumb');
 
 \Ilch\Registry::set('startTime', microtime(true));
 
-$page = new \Ilch\Page();
-$page->loadCms();
-$page->loadPage();
+try {
+    $page = new \Ilch\Page();
+    $page->loadCms();
+    $page->loadPage();
+} catch (Exception $ex) {
+    print 'An unexpected error occurred: ' . $ex->getMessage();
+}
