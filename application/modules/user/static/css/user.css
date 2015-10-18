@@ -264,3 +264,16 @@ input[readonly] {
     padding-left: 15px !important;
     padding-right: 15px !important;
 }
+
+
+/* login with google+ */
+
+#customBtn {
+    display: inline-block;
+    color: white;
+    border-radius: 5px;
+    white-space: nowrap;
+}
+#customBtn:hover {
+    cursor: pointer;
+}

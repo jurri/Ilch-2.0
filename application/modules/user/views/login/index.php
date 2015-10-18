@@ -1,57 +1,93 @@
-<!-- Platzieren Sie dieses asynchrone JavaScript unmittelbar vor Ihrem </body>-Tag -->
-<script type="text/javascript">
-    (function() {
-        var po = document.createElement('script'); 
-        po.type = 'text/javascript'; 
-        po.async = true;
-        po.src = 'https://apis.google.com/js/client:plusone.js';
-        var s = document.getElementsByTagName('script')[0]; 
-        s.parentNode.insertBefore(po, s);
-    })();
-     
-    function signinCallback(authResult) {
-        if (authResult['access_token']) {
-        // Autorisierung erfolgreich
-        // Nach der Autorisierung des Nutzers nun die Anmeldeschaltfläche ausblenden, zum Beispiel:
-            document.getElementById('signinButton').setAttribute('style', 'display: none');
-        } else if (authResult['error']) {
-        // Es gab einen Fehler.
-        // Mögliche Fehlercodes:
-        //   "access_denied" – Der Nutzer hat den Zugriff für Ihre App abgelehnt.
-        //   "immediate_failed" – Automatische Anmeldung des Nutzers ist fehlgeschlagen.
-        // console.log('Es gab einen Fehler: ' + authResult['Fehler']);
-        }
-    }
-</script>
-    
-<script type="text/javascript">
-    function disconnectUser(access_token) {
-        var revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token=' +
-        access_token;
-
-      // Führen Sie einen asynchrone GET-Anfrage durch.
-        $.ajax({
-            type: 'GET',
-            url: revokeUrl,
-            async: false,
-            contentType: "application/json",
-            dataType: 'jsonp',
-            success: function(nullResponse) {
-            // Führen Sie jetzt nach der Trennung des Nutzers eine Aktion durch.
-            // Die Reaktion ist immer undefiniert.
-            },
-            error: function(e) {
-            // Handhaben Sie den Fehler.
-            // console.log(e);
-            // Wenn es nicht geklappt hat. könnten Sie Nutzer darauf hinweisen, wie die manuelle Trennung erfolgt.
-            // https://plus.google.com/apps
-            }
-        });
-    }
-// Sie könnten die Trennung über den Klick auf eine Schaltfläche auslösen.
-    $('#revokeButton').click(disconnectUser);
-</script>
 <?php $config = \Ilch\Registry::get('config'); ?>
+<!-- facebook login -->
+<script> 
+function checkLoginState() {
+    FB.getLoginStatus(function(response) {
+        statusChangeCallback(response);
+        if (response.status === 'connected') {
+            console.log(response.authResponse.accessToken);
+        }
+    });
+}
+    
+window.fbAsyncInit = function() {
+    FB.init({
+        appId   : '<?=$config->get('facebook_appID') ?>', //1494626184167624
+        xfbml   : true,
+        version : 'v2.5',
+        oauth   : true,
+        status  : true, // check login status
+        cookie  : true, // enable cookies to allow the server to access the session
+    });
+};
+
+(function(d, s, id){
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {return;}
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+ }(document, 'script', 'facebook-jssdk'));
+     
+function fb_login(){
+    FB.login(function(response) {
+        if (response.authResponse) {
+            console.log('Welcome!  Fetching your information.... ');
+            //console.log(response); // dump complete info
+            access_token = response.authResponse.accessToken; //get access token
+            user_id = response.authResponse.userID; //get FB UID
+
+            FB.api('/me', function(response) {
+                user_email = response.email; //get user email you can store this data into your database             
+            });
+        } else {
+            //user hit cancel button
+            console.log('User cancelled login or did not fully authorize.');
+        }
+    }, {
+        scope: 'public_profile,publish_stream,email'
+    });
+}
+/*
+(function() {
+    var e = document.createElement('script');
+    e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+    e.async = true;
+    document.getElementById('fb-root').appendChild(e);
+}()); 
+*/
+</script>
+
+<!-- Google+ login -->
+<script src="https://apis.google.com/js/api:client.js"></script>
+<script>
+var googleUser = {};
+var startApp = function() {
+    gapi.load('auth2', function(){
+      // Retrieve the singleton for the GoogleAuth library and set up the client.
+        auth2 = gapi.auth2.init({
+            client_id: '<?=$config->get('google_appSecret') ?>-<?=$config->get('google_appID') ?>.apps.googleusercontent.com',
+            cookiepolicy: 'single_host_origin',
+            // Request scopes in addition to 'profile' and 'email'
+            //scope: 'additional_scope'
+        });
+        attachSignin(document.getElementById('customBtn'));
+    });
+};
+
+function attachSignin(element) {
+    console.log(element.id);
+    auth2.attachClickHandler(element, {},
+        function(googleUser) {
+            document.getElementById('name').innerText = "Signed in: " +
+            googleUser.getBasicProfile().getName();
+        }, function(error) {
+            alert(JSON.stringify(error, undefined, 2));
+        }
+    );
+}
+</script>
+  
 <?php if($this->getUser() == null): ?>
 <div class="panel panel-info">
     <div class="panel-heading">
@@ -61,20 +97,16 @@
         <div class="row">
             <div class="col-md-4" >
                 <?php if ($config->get('google_login') == 1): ?>
-                <span id="signinButton">
-                    <span
-                      class="g-signin"
-                      data-callback="signinCallback"
-                      data-clientid="532260975165-7cb2to2sdrnav7i3ul8gch18o24mq9vn.apps.googleusercontent.com"
-                      data-cookiepolicy="single_host_origin"
-                      data-requestvisibleactions="http://schemas.google.com/AddActivity"
-                      data-scope="https://www.googleapis.com/auth/plus.login">
-                    </span>
-                </span>
-                <a href="#"><img src="<?=$this->getModuleUrl('static/images/google/gplus.png') ?>" /></a><br/>
+                <div id="gSignInWrapper">   
+                    <div id="customBtn" class="customGPlusSignIn">
+                        <img src="<?=$this->getModuleUrl('static/images/google/gplus.png') ?>" />
+                    </div>
+                </div>
+                <div id="name"></div>
+                <script>startApp();</script>
                 <?php endif; ?>
                 <?php if ($config->get('facebook_login') == 1): ?>
-                <a href="#"><img src="<?=$this->getModuleUrl('static/images/facebook/fb.png') ?>"/></a><br/>
+                <a href="#" onclick="fb_login();"><img src="<?=$this->getModuleUrl('static/images/facebook/fb.png') ?>"/></a><br/>
                 <?php endif; ?>
                 <?php if ($config->get('twitter_login') == 1): ?>
                 <a href="#"><img src="<?=$this->getModuleUrl('static/images/twitter/tw.png') ?>" /></a>
