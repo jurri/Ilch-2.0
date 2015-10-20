@@ -1,7 +1,3 @@
-<link rel="stylesheet" href="<?php echo BASE_URL.'/application/modules/user/static/css/reset.css'; ?>"> <!-- CSS reset -->
-	<link rel="stylesheet" href="<?php echo BASE_URL.'/application/modules/user/static/css/style.css'; ?>"> <!-- Gem style -->
-	<script src="<?php echo BASE_URL.'/application/modules/user/static/js/modernizr.js'; ?>"></script> <!-- Modernizr -->
-
 <?php if($this->getUser() !== null): ?>
     <?=$this->getTrans('hello') ?> <b><?=$this->escape($this->getUser()->getName()) ?></b>,
     <br />
@@ -19,6 +15,10 @@
         <?=$this->getTrans('logout') ?>
     </a>
 <?php else: ?>
+    <link rel="stylesheet" href="<?php echo BASE_URL.'/application/modules/user/static/css/reset.css'; ?>"> <!-- CSS reset -->
+    <link rel="stylesheet" href="<?php echo BASE_URL.'/application/modules/user/static/css/style.css'; ?>"> <!-- Gem style -->
+    <link rel="stylesheet" href="<?php echo BASE_URL.'/application/modules/user/static/css/regist.css'; ?>">
+    <script src="<?php echo BASE_URL.'/application/modules/user/static/js/modernizr.js'; ?>"></script> <!-- Modernizr -->
     <form action="" class="form-horizontal" method="post">
         <?=$this->getTokenField();
         $errors = $this->get('errors');
@@ -48,120 +48,93 @@
         <div class="form-group">
              <div class="col-lg-12">
                 <nav class="main-nav">
-                    <a class="cd-signin btn btn-primary" href="#0">SocialMedia</a>
-		</nav>     
-                <button type="submit" class="btn btn-primary" name="login">
+                    <button type="button" class="cd-signin btn btn-primary btn-block">SocialMedia</button>
+		</nav>   
+                <br>
+                <button type="submit" class="btn btn-primary btn-block" name="login">
                     <?=$this->getTrans('login') ?>
                 </button>
                 <?php if ($this->get('regist_accept') == '1'): ?>
-                    <a class="btn btn-default" href="<?=$this->getUrl(array('module' => 'user', 'controller' => 'regist', 'action' => 'index')) ?>"><?=$this->getTrans('register') ?></a>
+                    <a class="btn btn-default btn-block" href="<?=$this->getUrl(array('module' => 'user', 'controller' => 'regist', 'action' => 'index')) ?>"><?=$this->getTrans('register') ?></a>
                 <?php endif; ?>
              </div>
         </div>
-        <!--div class="form-group">
-             <div class="col-lg-12">
-                <fb:login-button class="btn" scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
-             </div>
-        </div-->
     </form>
     <a href="<?=$this->getUrl(array('module' => 'user', 'controller' => 'login', 'action' => 'forgotpassword')) ?>"><?=$this->getTrans('forgotPassword') ?></a>
-    
-
-	
-
 	<div class="cd-user-modal"> <!-- this is the entire modal form, including the background -->
 		<div class="cd-user-modal-container"> <!-- this is the container wrapper -->
 			<ul class="cd-switcher">
+				<li><a href="#0">Social Login</a></li>
 				<li><a href="#0">Sign in</a></li>
-				<li><a href="#0">New account</a></li>
 			</ul>
 
 			<div id="cd-login"> <!-- log in form -->
-				<form class="cd-form">
-					<p class="fieldset">
-						<label class="image-replace cd-email" for="signin-email">E-mail</label>
-						<input class="full-width has-padding has-border" id="signin-email" type="email" placeholder="E-mail">
-						<span class="cd-error-message">Error message here!</span>
-					</p>
-
-					<p class="fieldset">
-						<label class="image-replace cd-password" for="signin-password">Password</label>
-						<input class="full-width has-padding has-border" id="signin-password" type="text"  placeholder="Password">
-						<a href="#0" class="hide-password">Hide</a>
-						<span class="cd-error-message">Error message here!</span>
-					</p>
-
-					<p class="fieldset">
-						<input type="checkbox" id="remember-me" checked>
-						<label for="remember-me">Remember me</label>
-					</p>
-
-					<p class="fieldset">
-						<input class="full-width" type="submit" value="Login">
-					</p>
-				</form>
-				
-				<p class="cd-form-bottom-message"><a href="#0">Forgot your password?</a></p>
-				<!-- <a href="#0" class="cd-close-form">Close</a> -->
+                            <div class="row omb_row-sm-offset-3 omb_socialButtons">
+                                <div class="col-xs-4 col-sm-2">
+                                    <a href="#" class="btn btn-lg btn-block omb_btn-facebook">
+                                        <i class="fa fa-facebook visible-xs"></i>
+                                        <span class="hidden-xs">Facebook</span>
+                                    </a>
+                                </div>
+                                <div class="col-xs-4 col-sm-2">
+                                    <a href="#" class="btn btn-lg btn-block omb_btn-twitter">
+                                        <i class="fa fa-twitter visible-xs"></i>
+                                        <span class="hidden-xs">Twitter</span>
+                                    </a>
+                                </div>	
+                                <div class="col-xs-4 col-sm-2">
+                                    <a href="#" class="btn btn-lg btn-block omb_btn-google">
+                                        <i class="fa fa-google-plus visible-xs"></i>
+                                        <span class="hidden-xs">Google+</span>
+                                    </a>
+                                </div>	
+                            </div>
 			</div> <!-- cd-login -->
 
 			<div id="cd-signup"> <!-- sign up form -->
-				<form class="cd-form">
-					<p class="fieldset">
-						<label class="image-replace cd-username" for="signup-username">Username</label>
-						<input class="full-width has-padding has-border" id="signup-username" type="text" placeholder="Username">
-						<span class="cd-error-message">Error message here!</span>
-					</p>
-
-					<p class="fieldset">
-						<label class="image-replace cd-email" for="signup-email">E-mail</label>
-						<input class="full-width has-padding has-border" id="signup-email" type="email" placeholder="E-mail">
-						<span class="cd-error-message">Error message here!</span>
-					</p>
-
-					<p class="fieldset">
-						<label class="image-replace cd-password" for="signup-password">Password</label>
-						<input class="full-width has-padding has-border" id="signup-password" type="text"  placeholder="Password">
-						<a href="#0" class="hide-password">Hide</a>
-						<span class="cd-error-message">Error message here!</span>
-					</p>
-
-					<p class="fieldset">
-						<input type="checkbox" id="accept-terms">
-						<label for="accept-terms">I agree to the <a href="#0">Terms</a></label>
-					</p>
-
-					<p class="fieldset">
-						<input class="full-width has-padding" type="submit" value="Create account">
-					</p>
-				</form>
-
-				<!-- <a href="#0" class="cd-close-form">Close</a> -->
+                            <form class="cd-form" action="" method="post">
+                                <?=$this->getTokenField() ?>
+                                <?php $errors = $this->get('errors'); ?>
+                                <fieldset>
+                                    <div class="form-group <?php if (!empty($errors['loginContent_emailname'])) { echo 'has-error'; }; ?>">
+                                        <div class="input-group">
+                                            <span class="input-group-addon" id="basic-addon1"><i class="fa fa-user"></i></span>
+                                            <input name="loginbox_emailname"
+                                                   class="form-control"
+                                                   type="text"
+                                                   placeholder="<?=$this->getTrans('nameEmail') ?>" />
+                                            <?php if (!empty($errors['loginContent_emailname'])): ?>
+                                                <span class="help-inline"><?=$this->getTrans($errors['loginContent_emailname']) ?></span>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>         
+                                    <div class="form-group <?php if (!empty($errors['loginContent_password'])) { echo 'has-error'; }; ?>">
+                                        <div class="input-group">
+                                            <span class="input-group-addon" id="basic-addon1"><i class="fa fa-lock"></i></span>
+                                            <input name="loginbox_password"
+                                                   class="form-control"
+                                                   type="password"
+                                                   placeholder="<?=$this->getTrans('password') ?>" />
+                                            <?php if (!empty($errors['loginContent_password'])): ?>
+                                                <span class="help-inline"><?=$this->getTrans($errors['loginContent_password']) ?></span>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                    <div class="spacing">
+                                        <a href="<?=$this->getUrl(array('module' => 'user', 'controller' => 'regist', 'action' => 'confirm')) ?>">Die Aktivierung Manuell freischalten</a>
+                                    </div>
+                                    <p class="fieldset">
+                                        <button type="submit" class="btn btn-primary btn-block" name="login">
+                                            <?=$this->getTrans('login') ?>
+                                        </button>  
+                                    </p>
+                                </fieldset>
+                                <p class="cd-form-bottom-message">
+                                    <a href="<?=$this->getUrl(array('module' => 'user', 'controller' => 'login', 'action' => 'forgotpassword')) ?>"><?=$this->getTrans('forgotPassword') ?></a><br />
+                                </p>
+                            </form>
 			</div> <!-- cd-signup -->
-
-			<div id="cd-reset-password"> <!-- reset password form -->
-				<p class="cd-form-message">Lost your password? Please enter your email address. You will receive a link to create a new password.</p>
-
-				<form class="cd-form">
-					<p class="fieldset">
-						<label class="image-replace cd-email" for="reset-email">E-mail</label>
-						<input class="full-width has-padding has-border" id="reset-email" type="email" placeholder="E-mail">
-						<span class="cd-error-message">Error message here!</span>
-					</p>
-
-					<p class="fieldset">
-						<input class="full-width has-padding" type="submit" value="Reset password">
-					</p>
-				</form>
-
-				<p class="cd-form-bottom-message"><a href="#0">Back to log-in</a></p>
-			</div> <!-- cd-reset-password -->
-			<a href="#0" class="cd-close-form">Close</a>
 		</div> <!-- cd-user-modal-container -->
-	</div> <!-- cd-user-modal -->
-        
-        
-<script src="<?php echo BASE_URL.'/application/modules/user/static/js/main.js'; ?>"></script> <!-- Gem jQuery -->   
-    
-    
+	</div> <!-- cd-user-modal -->       
+    <script src="<?php echo BASE_URL.'/application/modules/user/static/js/main.js'; ?>"></script> <!-- Gem jQuery -->      
 <?php endif; ?>
