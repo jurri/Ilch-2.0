@@ -15,8 +15,6 @@ html * {
 }
 
 body {
-  font-size: 100%;
-  font-family: "PT Sans", sans-serif;
   color: #505260;
   background-color: white;
 }
@@ -31,7 +29,6 @@ img {
 }
 
 input, textarea {
-  font-family: "PT Sans", sans-serif;
   font-size: 16px;
   font-size: 1rem;
 }
@@ -268,10 +265,7 @@ xsigin/signup popup
 .cd-form .fieldset:last-child {
   margin-bottom: 0;
 }
-.cd-form label {
-  font-size: 14px;
-  font-size: 0.875rem;
-}
+
 .cd-form label.image-replace {
   /* replace text with an icon */
   display: inline-block;
@@ -365,8 +359,6 @@ xsigin/signup popup
   -ms-transform: translateY(-50%);
   -o-transform: translateY(-50%);
   transform: translateY(-50%);
-  font-size: 14px;
-  font-size: 0.875rem;
   color: #343642;
 }
 .cd-form .cd-error-message {
@@ -378,8 +370,6 @@ xsigin/signup popup
   padding: .8em;
   z-index: 2;
   color: #FFF;
-  font-size: 13px;
-  font-size: 0.8125rem;
   border-radius: 0.25em;
   /* prevent click and touch events */
   pointer-events: none;
@@ -431,8 +421,6 @@ xsigin/signup popup
 
 .cd-form-message {
   padding: 1.4em 1.4em 0;
-  font-size: 14px;
-  font-size: 0.875rem;
   line-height: 1.4;
   text-align: center;
 }
@@ -448,8 +436,6 @@ xsigin/signup popup
   left: 0;
   bottom: -30px;
   text-align: center;
-  font-size: 14px;
-  font-size: 0.875rem;
 }
 .cd-form-bottom-message a {
   color: #FFF;

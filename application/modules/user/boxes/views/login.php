@@ -15,10 +15,12 @@
         <?=$this->getTrans('logout') ?>
     </a>
 <?php else: ?>
+    <?php /*
     <link rel="stylesheet" href="<?php echo BASE_URL.'/application/modules/user/static/css/reset.css'; ?>"> <!-- CSS reset -->
     <link rel="stylesheet" href="<?php echo BASE_URL.'/application/modules/user/static/css/style.css'; ?>"> <!-- Gem style -->
-    <link rel="stylesheet" href="<?php echo BASE_URL.'/application/modules/user/static/css/regist.css'; ?>">
     <script src="<?php echo BASE_URL.'/application/modules/user/static/js/modernizr.js'; ?>"></script> <!-- Modernizr -->
+     */
+    ?>
     <form action="" class="form-horizontal" method="post">
         <?=$this->getTokenField();
         $errors = $this->get('errors');
@@ -61,7 +63,8 @@
         </div>
     </form>
     <a href="<?=$this->getUrl(array('module' => 'user', 'controller' => 'login', 'action' => 'forgotpassword')) ?>"><?=$this->getTrans('forgotPassword') ?></a>
-	<div class="cd-user-modal"> <!-- this is the entire modal form, including the background -->
+	<?php /*
+        <div class="cd-user-modal"> <!-- this is the entire modal form, including the background -->
 		<div class="cd-user-modal-container"> <!-- this is the container wrapper -->
 			<ul class="cd-switcher">
 				<li><a href="#0">Social Login</a></li>
@@ -69,26 +72,16 @@
 			</ul>
 
 			<div id="cd-login"> <!-- log in form -->
-                            <div class="row omb_row-sm-offset-3 omb_socialButtons">
-                                <div class="col-xs-4 col-sm-2">
-                                    <a href="#" class="btn btn-lg btn-block omb_btn-facebook">
-                                        <i class="fa fa-facebook visible-xs"></i>
-                                        <span class="hidden-xs">Facebook</span>
-                                    </a>
+                            <div id="gSignInWrapper">   
+                                <div id="customBtn" class="customGPlusSignIn">
+                                    <img src="<?php echo BASE_URL.'/application/modules/user/static/images/google/gplus.png'; ?>" />
                                 </div>
-                                <div class="col-xs-4 col-sm-2">
-                                    <a href="#" class="btn btn-lg btn-block omb_btn-twitter">
-                                        <i class="fa fa-twitter visible-xs"></i>
-                                        <span class="hidden-xs">Twitter</span>
-                                    </a>
-                                </div>	
-                                <div class="col-xs-4 col-sm-2">
-                                    <a href="#" class="btn btn-lg btn-block omb_btn-google">
-                                        <i class="fa fa-google-plus visible-xs"></i>
-                                        <span class="hidden-xs">Google+</span>
-                                    </a>
-                                </div>	
                             </div>
+                            <div id="name"></div>
+                            <script>startApp();</script>
+                            <a href="#" onclick="fb_login();"><img src="<?php echo BASE_URL.'/application/modules/user/static/images/facebook/fb.png'; ?>"/></a><br/>
+                            <a href="#"><img src="<?php echo BASE_URL.'/application/modules/user/static/images/twitter/tw.png'; ?>" /></a>
+                          
 			</div> <!-- cd-login -->
 
 			<div id="cd-signup"> <!-- sign up form -->
@@ -136,5 +129,6 @@
 			</div> <!-- cd-signup -->
 		</div> <!-- cd-user-modal-container -->
 	</div> <!-- cd-user-modal -->       
-    <script src="<?php echo BASE_URL.'/application/modules/user/static/js/main.js'; ?>"></script> <!-- Gem jQuery -->      
+    <script src="<?php echo BASE_URL.'/application/modules/user/static/js/main.js'; ?>"></script> <!-- Gem jQuery -->  
+         */ ?>   
 <?php endif; ?>
