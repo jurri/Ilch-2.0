@@ -8,8 +8,6 @@ namespace Modules\Comment\Mappers;
 
 use Modules\Comment\Models\Comment as CommentModel;
 
-defined('ACCESS') or die('no direct access');
-
 class Comment extends \Ilch\Mapper
 {
     /**
@@ -23,6 +21,10 @@ class Comment extends \Ilch\Mapper
             ->order(array('id' => 'DESC'))
             ->execute()
             ->fetchRows();
+
+        if (empty($commentsArray)) {
+            return null;
+        }
 
         $comments = array();
 

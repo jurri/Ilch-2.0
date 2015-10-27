@@ -3,6 +3,23 @@ $settingMapper = new \Modules\User\Mappers\Setting();
 ?>
 
 <link href="<?=$this->getStaticUrl('js/datetimepicker/css/bootstrap-datetimepicker.min.css') ?>" rel="stylesheet">
+<style>
+.input-group > .input-group-addon:not(:last-child):not(:nth-last-child(2)) {
+    border-right-width: 0;
+}
+.input-group > :not(.input-group-addon):not(.input-group-btn) + .input-group-addon {
+    border-left-width: 0;
+}
+.input-group > .input-group-btn:not(:first-child) > .btn,
+.input-group > .input-group-btn:not(:first-child) > .btn-group > .btn {
+    margin-left: -1px;
+    margin-right: -1px;
+}
+.input-group > .input-group-btn:not(:first-child):not(:last-child) > .btn,
+.input-group > .input-group-btn:not(:first-child):not(:last-child) > .btn-group > .btn {
+    border-radius: 0;
+}
+</style>
 
 <?php include APPLICATION_PATH.'/modules/events/views/index/navi.php'; ?>
 <form class="form-horizontal" method="POST" enctype="multipart/form-data" action="">
@@ -27,6 +44,12 @@ $settingMapper = new \Modules\User\Mappers\Setting();
                 </div>
             <?php endif; ?>
             <div class="col-lg-7">
+                <?php if ($this->get('event') != '' AND $this->get('event')->getImage() != ''): ?>
+                    <label for="image_delete" style="margin-left: 10px; margin-top: 10px;">
+                        <input type="checkbox" name="image_delete" id="image_delete"> <?=$this->getTrans('deleteImage') ?>
+                    </label>
+                <?php endif; ?>
+
                 <p><?=$this->getTrans('imageSize') ?>: <?=$this->get('image_width') ?> Pixel <?=$this->getTrans('width') ?>, <?=$this->get('image_height') ?> Pixel <?=$this->getTrans('height') ?>.</p>
                 <p><?=$this->getTrans('maxFilesize') ?>: <?=$settingMapper->getNicebytes($this->get('image_size')) ?>.</p>
                 <p><?=$this->getTrans('imageAllowedFileExtensions') ?>: <?=str_replace(' ', ', ', $this->get('image_filetypes')) ?></p>
@@ -44,16 +67,37 @@ $settingMapper = new \Modules\User\Mappers\Setting();
         </div>
     </div>
     <div class="form-group">
-        <label for="dtp_input1" class="col-md-2 control-label">
-            <?=$this->getTrans('time') ?>:
+        <label for="start" class="col-md-2 control-label">
+            <?=$this->getTrans('startTime') ?>:
         </label>
-        <div class="col-lg-3 input-group date form_datetime">
+        <div class="col-lg-4 input-group date form_datetime">
             <input class="form-control"
                    size="16"
                    type="text"
-                   name="dateCreated"
-                   value="<?php if ($this->get('event') != '') { echo date('d.m.Y H:i', strtotime($this->get('event')->getdateCreated())); } ?>"
+                   id="start"
+                   name="start"
+                   value="<?php if ($this->get('event') != '') { echo date('d.m.Y H:i', strtotime($this->get('event')->getStart())); } ?>"
                    readonly>
+            <span class="input-group-addon">
+                <span class="fa fa-calendar"></span>
+            </span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="end" class="col-md-2 control-label">
+            <?=$this->getTrans('endTime') ?>:
+        </label>
+        <div class="col-lg-4 input-group date form_datetime">
+            <input class="form-control"
+                   size="16"
+                   type="text"
+                   id="end"
+                   name="end"
+                   value="<?php if ($this->get('event') != '' AND $this->get('event')->getEnd() != '0000-00-00 00:00:00') { echo date('d.m.Y H:i', strtotime($this->get('event')->getEnd())); } ?>"
+                   readonly>
+            <span class="input-group-addon">
+                <span class="fa fa-times"></span>
+            </span>
             <span class="input-group-addon">
                 <span class="fa fa-calendar"></span>
             </span>
@@ -117,7 +161,7 @@ $settingMapper = new \Modules\User\Mappers\Setting();
 <script type="text/javascript" src="<?=$this->getStaticUrl('js/datetimepicker/js/bootstrap-datetimepicker.js')?>" charset="UTF-8"></script>
 <script type="text/javascript" src="<?=$this->getStaticUrl('js/datetimepicker/js/locales/bootstrap-datetimepicker.'.substr($this->getTranslator()->getLocale(), 0, 2).'.js')?>" charset="UTF-8"></script>
 <script type="text/javascript">
-$( document ).ready(function() {
+$(document).ready(function() {
     $(".form_datetime").datetimepicker({
         format: "dd.mm.yyyy hh:ii",
         startDate: new Date(),
@@ -125,7 +169,8 @@ $( document ).ready(function() {
         language: '<?=substr($this->getTranslator()->getLocale(), 0, 2) ?>',
         minuteStep: 15,
         todayHighlight: true,
-        toggleActive: true
+        linkField: "end",
+        linkFormat: "dd.mm.yyyy hh:ii"
     });
 });
 

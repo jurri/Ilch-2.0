@@ -4,8 +4,6 @@
  * @package ilch
  */
 
-defined('ACCESS') or die('no direct access');
-
 return array
 (
     'addButton' => 'Add',
@@ -76,8 +74,8 @@ return array
     'overview' => 'Overview',
     'help' => 'Help',
     'documentationFAQ' => 'Documentation / FAQ',
-    'officalSupportForum' => 'Offical Support Forum',
-    'officalSite' => 'Offical Site',
+    'officialSupportForum' => 'Official Support Forum',
+    'officialSite' => 'Official Site',
     'setDefault' => 'Set as Default',
     'isDefault' => 'Is Standard',
     'delete' => 'Delete',
@@ -132,4 +130,16 @@ return array
     'available' => 'Available',
     'writable' => 'writable',
     'notWritable' => 'not writable',
+
+    'menuKeyboardShortcuts' => 'Keyboard Shortcuts',
+    'hmenuKeyboardShortcuts' => 'Keyboard Shortcuts',
+    'keyboardShortcuts' => 'Keyboard Shortcuts',
+    'shortcut' => 'Shortcut',
+    'shortcutOption' => 'Option',
+    'shortcutArticle' => 'Opens the Article Module',
+    'shortcutUser' => 'Opens the User Module',
+    'shortcutPHPInfo' => 'Opens the PHP Info',
+    'shortcutSettings' => 'Opens the Site Settings',
+    'shortcutKeybord' => 'Opens the Keyboard Shortcuts',
+    'shortcutOfficialSite' => 'Opens the official Site',
 );

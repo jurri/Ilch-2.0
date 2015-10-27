@@ -4,11 +4,10 @@
  * @package ilch
  */
 
-defined('ACCESS') or die('no direct access');
-
 return array
 (
     'menuJobs' => 'Jobs',
+    'menuJob' => 'Job',
     'manageJobs' => 'Jobs verwalten',
     'title' => 'Titel',
     'email' => 'E-Mail Adresse',

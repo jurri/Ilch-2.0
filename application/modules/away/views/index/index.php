@@ -1,7 +1,9 @@
-<?php $userMapper = new \Modules\User\Mappers\User() ?>
-<?php if($this->getUser()): ?>
-    <?php $userCheck = $userMapper->getUserById($this->getUser()->getId()) ?>
-<?php endif; ?>
+<?php
+$userMapper = new \Modules\User\Mappers\User();
+if ($this->getUser()) {
+    $userCheck = $userMapper->getUserById($this->getUser()->getId());
+}
+?>
 
 <link href="<?=$this->getStaticUrl('js/datetimepicker/css/bootstrap-datetimepicker.min.css') ?>" rel="stylesheet">
 
@@ -158,8 +160,8 @@
                 <input class="form-control"
                        size="16"
                        type="text"
+                       id="start"
                        name="start"
-                       value=""
                        readonly>
                 <span class="input-group-addon">
                     <span class="fa fa-calendar"></span>
@@ -169,8 +171,8 @@
                 <input class="form-control"
                        size="16"
                        type="text"
+                       id="end"
                        name="end"
-                       value=""
                        readonly>
                 <span class="input-group-addon">
                     <span class="fa fa-calendar"></span>
@@ -196,8 +198,7 @@
 <script type="text/javascript" src="<?=$this->getStaticUrl('js/datetimepicker/js/bootstrap-datetimepicker.js')?>" charset="UTF-8"></script>
 <script type="text/javascript" src="<?=$this->getStaticUrl('js/datetimepicker/js/locales/bootstrap-datetimepicker.'.substr($this->getTranslator()->getLocale(), 0, 2).'.js')?>" charset="UTF-8"></script>
 <script type="text/javascript">
-$( document ).ready(function()
-{
+$(document).ready(function() {
     $(".form_datetime").datetimepicker({
         format: "dd.mm.yyyy",
         startDate: new Date(),
@@ -205,7 +206,8 @@ $( document ).ready(function()
         language: '<?=substr($this->getTranslator()->getLocale(), 0, 2) ?>',
         minView: 2,
         todayHighlight: true,
-        toggleActive: true
+        linkField: "end",
+        linkFormat: "dd.mm.yyyy"
     });
 });
 </script>

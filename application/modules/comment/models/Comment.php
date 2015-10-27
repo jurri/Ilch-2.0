@@ -6,8 +6,6 @@
 
 namespace Modules\Comment\Models;
 
-defined('ACCESS') or die('no direct access');
-
 /**
  * The comment model class.
  */
@@ -21,7 +19,7 @@ class Comment extends \Ilch\Model
     /**
      * @var integer
      */
-    protected $fkid;
+    protected $fkId;
 
     /**
      * @var string
@@ -67,16 +65,16 @@ class Comment extends \Ilch\Model
      */
     public function getFKId()
     {
-        return $this->fk_id;
+        return $this->fkId;
     }
 
     /**
-     * @param integer $fkid
+     * @param integer $fkId
      * @return this
      */
-    public function setFKId($fkid)
+    public function setFKId($fkId)
     {
-        $this->fk_id = (int)$fkid;
+        $this->fkId = (int)$fkId;
 
         return $this;
     }

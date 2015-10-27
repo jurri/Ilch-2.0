@@ -4,17 +4,16 @@
  * @package ilch
  */
 
-defined('ACCESS') or die('no direct access');
-
 return array
 (
     'menuEvents' => 'Veranstaltungen',
     'event' => 'Veranstaltung',
-    'date' => 'Datum',
+    'dateTime' => 'Datum/Uhrzeit',
     'creator' => 'Ersteller',
     'title' => 'Titel',
     'place' => 'Ort',
-    'time' => 'Datum/Uhrzeit',
+    'startTime' => 'Start',
+    'endTime' => 'Ende',
     'text' => 'Text',
     'image' => 'Bild',
     'noEvent' => 'Keine Veranstaltungen vorhanden.',
@@ -46,6 +45,8 @@ return array
     'edit' => 'Bearbeiten',
     'at' => 'um',
     'write' => 'Schreiben',
+    'description' => 'Beschreibung',
+    'comments' => 'Kommentare',
     'navigation' => 'Navigation',
     'naviEventsAll' => 'Alle',
     'naviEventsUpcoming' => 'Bevorstehende',
@@ -58,6 +59,7 @@ return array
     'imageSizeBytes' => 'Bild max Größe in Bytes',
     'height' => 'hoch',
     'width' => 'breit',
+    'deleteImage' => 'Bild löschen?',
     'imageSize' => 'Bildgröße',
     'maxFilesize' => 'Maximale Dateigröße',
     'imageAllowedFileExtensions' => 'Erlaubte Dateiendungen',

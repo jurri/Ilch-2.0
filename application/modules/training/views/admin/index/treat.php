@@ -1,20 +1,14 @@
-<?php
-$training = $this->get('training');
-?>
-
 <link href="<?=$this->getModuleUrl('static/css/training.css') ?>" rel="stylesheet">
 <link href="<?=$this->getStaticUrl('js/datetimepicker/css/bootstrap-datetimepicker.min.css') ?>" rel="stylesheet">
 
-<form class="form-horizontal" method="POST" action="<?=$this->getUrl(array('action' => $this->getRequest()->getActionName(), 'id' => $this->getRequest()->getParam('id'))); ?>">
-    <?=$this->getTokenField() ?>
-    <legend>
-        <?php if ($this->get('training') != ''): ?>
-            <?=$this->getTrans('edit') ?>
-        <?php else: ?>
-            <?=$this->getTrans('add') ?>
-        <?php endif; ?>
-    </legend>
-
+<legend>
+    <?php if ($this->get('training') != ''): ?>
+        <?=$this->getTrans('edit') ?>
+    <?php else: ?>
+        <?=$this->getTrans('add') ?>
+    <?php endif; ?>
+</legend>
+<form class="form-horizontal" method="POST" action="">
     <div class="form-group">
         <label for="title" class="col-lg-2 control-label">
             <?=$this->getTrans('title') ?>:
@@ -213,11 +207,11 @@ $training = $this->get('training');
 $(document).ready(function() {
     $(".form_datetime").datetimepicker({
         format: "dd.mm.yyyy hh:ii",
+        startDate: new Date(),
         autoclose: true,
         language: '<?=substr($this->getTranslator()->getLocale(), 0, 2) ?>',
         minuteStep: 15,
-        todayHighlight: true,
-        toggleActive: true
+        todayHighlight: true
     });
 });
 

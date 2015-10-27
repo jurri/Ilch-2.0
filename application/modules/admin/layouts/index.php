@@ -34,6 +34,27 @@
         <script src="<?=$this->getStaticUrl('js/validate/ilch-validate.js') ?>"></script>
         <script src="<?=$this->getStaticUrl('js/ckeditor/ckeditor.js') ?>"></script>
         <script src="<?=$this->getStaticUrl('js/ilch.js') ?>"></script>
+        <script src="<?=$this->getStaticUrl('js/jquery-hotkeys.js') ?>"></script>
+        <script>
+            $(document).hotkey('alt+a', function() {
+                window.location.href ='<?=$this->getUrl(array('module' => 'article', 'controller' => 'index', 'action' => 'index')) ?>';
+            });
+            $(document).hotkey('alt+u', function() {
+                window.location.href ='<?=$this->getUrl(array('module' => 'user', 'controller' => 'index', 'action' => 'index')) ?>';
+            });
+            $(document).hotkey('alt+s', function() {
+                window.location.href ='<?=$this->getUrl(array('module' => 'admin', 'controller' => 'settings', 'action' => 'index')) ?>';
+            });
+            $(document).hotkey('alt+h', function() {
+                window.location.href ='<?=$this->getUrl(array('module' => 'admin', 'controller' => 'infos', 'action' => 'index')) ?>';
+            });
+            $(document).hotkey('alt+k', function() {
+                window.location.href ='<?=$this->getUrl(array('module' => 'admin', 'controller' => 'infos', 'action' => 'shortcuts')) ?>';
+            });
+            $(document).hotkey('alt+i', function() {
+                window.open('http://ilch.de/', '_blank');
+            });
+        </script>
     </head>
     <body id="body" class="">
         <script>
@@ -165,14 +186,14 @@
                                 <li>
                                     <a href="http://www.ilch.de" target="_blank">
                                         <i class="fa fa-home"></i>
-                                        <?=$this->getTrans('officalSite') ?>
+                                        <?=$this->getTrans('officialSite') ?>
                                     </a>
                                 </li>
                                 <li class="divider"></li>
                                 <li>
                                     <a href="http://www.ilch.de/forum.html" target="_blank">
                                         <i class="fa fa-comments-o"></i>
-                                        <?=$this->getTrans('officalSupportForum') ?>
+                                        <?=$this->getTrans('officialSupportForum') ?>
                                     </a>
                                 </li>
                                 <li>
@@ -183,7 +204,7 @@
                                 </li>
                                 <li class="divider"></li>
                                 <li>
-                                    <a href="<?=$this->getUrl(array('module' => 'admin', 'controller' => 'infos')) ?>">
+                                    <a href="<?=$this->getUrl(array('module' => 'admin', 'controller' => 'infos', 'action' => 'index')) ?>">
                                         <i class="fa fa-info-circle"></i>
                                         <?=$this->getTrans('menuInfos') ?>
                                     </a>

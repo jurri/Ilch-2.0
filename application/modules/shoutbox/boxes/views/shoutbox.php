@@ -1,25 +1,31 @@
 <script type="text/javascript" >
-$(document).ready(function() {
-    $("#shoutbox-slide-down").click(function() {
-        $("#shoutbox-button-container").slideUp(200, function() {
-            $("#shoutbox-form-container").slideDown(400);
-        });
-    });
-});
-
-$(document.body).mousedown(function(event) {
-    var target = $(event.target);
-
-    if (!target.parents().andSelf().is('#shoutbox-container')) {
-        $('#shoutbox-form-container').slideUp(400, function() {
-            $("#shoutbox-button-container").slideDown(200);
-        });
-    }
-});
-
 $(function() {
-    var $shoutboxContainer = $('#shoutbox-container');
+    var $shoutboxContainer = $('#shoutbox-container'),
+        showForm = function() {
+            $("#shoutbox-button-container").slideUp(200, function() {
+                $("#shoutbox-form-container").slideDown(400);
+            });
+        },
+        hideForm = function(afterHide) {
+            $("#shoutbox-form-container").slideUp(400, function() {
+                $("#shoutbox-button-container").slideDown(200, afterHide);
+            });
+        };
 
+
+    //slideup-down
+    $shoutboxContainer.on('click', '#shoutbox-slide-down', showForm);
+
+    //slideup-down reset on click out
+    $(document.body).on('mousedown', function(event) {
+        var target = $(event.target);
+
+        if (!target.parents().andSelf().is('#shoutbox-container')) {
+            hideForm();
+        }
+    });
+
+    //ajax send
     $shoutboxContainer.on('click', 'button[type=submit]', function(ev) {
         ev.preventDefault();
         var $btn = $(this),
@@ -36,11 +42,8 @@ $(function() {
                 cache: false,
                 success: function(html) {
                     var $htmlWithoutScript = $(html).filter('#shoutbox-container');
-
-                    $('#shoutbox-form-container').slideUp(400, function() {
-                        $("#shoutbox-button-container").slideDown(200, function() {
-                            $form.closest('#shoutbox-container').html($htmlWithoutScript.html());
-                        });
+                    hideForm(function() {
+                        $shoutboxContainer.html($htmlWithoutScript.html());
                     });
                 }
             });
@@ -60,9 +63,7 @@ $(function() {
                 </div>
                 <?php if (count($this->get('shoutbox')) == $config->get('shoutbox_limit')): ?>
                     <div class="pull-right">
-                        <button class="btn">
-                            <a href="<?=$this->getUrl('shoutbox/index/index/') ?>"><?=$this->getTrans('archive') ?></a>
-                        </button>
+                        <a href="<?=$this->getUrl('shoutbox/index/index/') ?>" class="btn btn-default"><?=$this->getTrans('archive') ?></a>
                     </div>
                 <?php endif; ?>
             </div>
@@ -114,9 +115,7 @@ $(function() {
                     </div>
                     <?php if (count($this->get('shoutbox')) == $config->get('shoutbox_limit')): ?>
                         <div class="pull-right">
-                            <button class="btn">
-                                <a href="<?=$this->getUrl('shoutbox/index/index/') ?>"><?=$this->getTrans('archive') ?></a>
-                            </button>
+                            <a href="<?=$this->getUrl('shoutbox/index/index/') ?>" class="btn btn-default"><?=$this->getTrans('archive') ?></a>
                         </div>
                     <?php endif; ?>
                 </div>

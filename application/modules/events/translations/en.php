@@ -4,17 +4,16 @@
  * @package ilch
  */
 
-defined('ACCESS') or die('no direct access');
-
 return array
 (
     'menuEvents' => 'Events',
     'event' => 'Event',
-    'date' => 'Date',
+    'dateTime' => 'Date/Time',
     'creator' => 'Creator',
     'title' => 'Title',
     'place' => 'Place',
-    'time' => 'Date/Time',
+    'startTime' => 'Start',
+    'endTime' => 'End',
     'text' => 'Text',
     'image' => 'Image',
     'noEvent' => 'No Event available.',
@@ -46,6 +45,8 @@ return array
     'edit' => 'Edit',
     'at' => 'at',
     'write' => 'Write',
+    'description' => 'Description',
+    'comments' => 'Comments',
     'navigation' => 'Navigation',
     'naviEventsAll' => 'All',
     'naviEventsUpcoming' => 'Upcoming',
@@ -58,6 +59,7 @@ return array
     'imageSizeBytes' => 'Image max Size in Bytes',
     'height' => 'height',
     'width' => 'width',
+    'deleteImage' => 'Delete image?',
     'avatarSize' => 'image Size',
     'maxFilesize' => 'Maximum file size',
     'avatarAllowedFileExtensions' => 'Allowed file extensions',

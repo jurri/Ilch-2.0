@@ -7,8 +7,7 @@
 namespace Modules\Events\Mappers;
 
 use Modules\Events\Models\Events as EventModel;
-
-defined('ACCESS') or die('no direct access');
+use Modules\Events\Mappers\Events as EventMapper;
 
 class Events extends \Ilch\Mapper
 {
@@ -23,7 +22,7 @@ class Events extends \Ilch\Mapper
         $entryArray = $this->db()->select('*')
                 ->from('events')
                 ->where($where)
-                ->order(array('date_created' => 'ASC'))
+                ->order(array('start' => 'ASC'))
                 ->execute()
                 ->fetchRows();
 
@@ -37,7 +36,8 @@ class Events extends \Ilch\Mapper
             $entryModel = new EventModel();
             $entryModel->setId($entries['id']);
             $entryModel->setUserId($entries['user_id']);
-            $entryModel->setDateCreated($entries['date_created']);
+            $entryModel->setStart($entries['start']);
+            $entryModel->setEnd($entries['end']);
             $entryModel->setTitle($entries['title']);
             $entryModel->setPlace($entries['place']);
             $entryModel->setImage($entries['image']);
@@ -70,7 +70,8 @@ class Events extends \Ilch\Mapper
         $eventModel = new EventModel();
         $eventModel->setId($eventRow['id']);
         $eventModel->setUserId($eventRow['user_id']);
-        $eventModel->setDateCreated($eventRow['date_created']);
+        $eventModel->setStart($eventRow['start']);
+        $eventModel->setEnd($eventRow['end']);
         $eventModel->setTitle($eventRow['title']);
         $eventModel->setPlace($eventRow['place']);
         $eventModel->setImage($eventRow['image']);
@@ -85,12 +86,12 @@ class Events extends \Ilch\Mapper
      */
     public function getEventListUpcoming($limit = null)
     {
-        $eventMapper = new \Modules\Events\Mappers\Events();
+        $eventMapper = new EventMapper();
 
         $sql = 'SELECT *
                 FROM `[prefix]_events`
-                WHERE DAY(date_created) >= DAY(CURDATE()) AND MONTH(date_created) = MONTH(CURDATE()) OR MONTH(date_created) = MONTH(CURDATE()+INTERVAL 1 MONTH)
-                ORDER BY date_created ASC';
+                WHERE DAY(start) >= DAY(CURDATE()) AND MONTH(start) = MONTH(CURDATE()) OR MONTH(start) = MONTH(CURDATE()+INTERVAL 1 MONTH)
+                ORDER BY start ASC';
 
         if ($limit !== null) { $sql .= ' LIMIT '.$limit; }
 
@@ -114,12 +115,12 @@ class Events extends \Ilch\Mapper
      */
     public function getEventListUpcomingALL()
     {
-        $eventMapper = new \Modules\Events\Mappers\Events();
+        $eventMapper = new EventMapper();
 
         $sql = 'SELECT *
                 FROM `[prefix]_events`
-                WHERE date_created >= CURDATE()
-                ORDER BY date_created ASC';
+                WHERE start >= CURDATE()
+                ORDER BY start ASC';
 
         $rows = $this->db()->queryArray($sql);
 
@@ -141,10 +142,10 @@ class Events extends \Ilch\Mapper
      */
     public function getEventListParticipation($userId)
     {
-        $eventMapper = new \Modules\Events\Mappers\Events();
+        $eventMapper = new EventMapper();
         
         $entryRow = $this->db()->select('*')
-                ->from('events_entrants')
+                ->from('events')
                 ->where(array('user_id' => $userId))
                 ->execute()
                 ->fetchRows();
@@ -156,7 +157,7 @@ class Events extends \Ilch\Mapper
         $events = array();
         
         foreach ($entryRow as $row) {
-            $events[] = $eventMapper->getEventById($row['event_id']);
+            $events[] = $eventMapper->getEventById($row['id']);
         }
 
         return $events;
@@ -167,12 +168,12 @@ class Events extends \Ilch\Mapper
      */
     public function getEventListOther($limit = null)
     {
-        $eventMapper = new \Modules\Events\Mappers\Events();
+        $eventMapper = new EventMapper();
 
         $sql = 'SELECT *
                 FROM `[prefix]_events`
-                WHERE DAY(date_created) > DAY(CURDATE()) AND MONTH(date_created) > MONTH(CURDATE()) AND MONTH(date_created) = MONTH(CURDATE()+INTERVAL 2 MONTH)
-                ORDER BY date_created ASC';
+                WHERE DAY(start) > DAY(CURDATE()) AND MONTH(start) > MONTH(CURDATE()) AND MONTH(start) = MONTH(CURDATE()+INTERVAL 2 MONTH)
+                ORDER BY start ASC';
 
         if ($limit !== null) { $sql .= ' LIMIT '.$limit; }
 
@@ -196,12 +197,12 @@ class Events extends \Ilch\Mapper
      */
     public function getEventListPast($limit = null)
     {
-        $eventMapper = new \Modules\Events\Mappers\Events();
+        $eventMapper = new EventMapper();
 
         $sql = 'SELECT *
                 FROM `[prefix]_events`
-                WHERE date_created < CURDATE()
-                ORDER BY date_created DESC';
+                WHERE start < CURDATE()
+                ORDER BY start DESC';
 
         if ($limit !== null) { $sql .= ' LIMIT '.$limit; }
 
@@ -237,7 +238,8 @@ class Events extends \Ilch\Mapper
         $fields = array
         (
             'user_id' => $event->getUserId(),
-            'date_created' => $event->getDateCreated(),
+            'start' => $event->getStart(),
+            'end' => $event->getEnd(),
             'title' => $event->getTitle(),
             'place' => $event->getPlace(),
             'image' => $event->getImage(),

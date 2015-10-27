@@ -9,8 +9,6 @@ namespace Modules\Events\Controllers;
 use Modules\Events\Mappers\Events as EventMapper;
 use Modules\Events\Models\Events as EventModel;
 
-defined('ACCESS') or die('no direct access');
-
 class Index extends \Ilch\Controller\Frontend
 {
     public function indexAction()
@@ -42,9 +40,9 @@ class Index extends \Ilch\Controller\Frontend
                     ->add($this->getTranslator()->trans('edit'), array('action' => 'treat', 'id' => $event->getId()));
 
             $this->getView()->set('event', $eventMapper->getEventById($this->getRequest()->getParam('id')));
-        }  else {
+        } else {
             $this->getLayout()->getHmenu()->add($this->getTranslator()->trans('menuEvents'), array('action' => 'index'))
-                    ->add($this->getTranslator()->trans('add'), array('action' => 'treat'));            
+                    ->add($this->getTranslator()->trans('add'), array('action' => 'treat'));
         }
 
         $imageAllowedFiletypes = $this->getConfig()->get('event_filetypes');
@@ -59,9 +57,14 @@ class Index extends \Ilch\Controller\Frontend
             }
 
             $title = trim($this->getRequest()->getPost('title'));
-            $dateCreated = new \Ilch\Date(trim($this->getRequest()->getPost('dateCreated')));
+            $start = new \Ilch\Date(trim($this->getRequest()->getPost('start')));
             $place = trim($this->getRequest()->getPost('place'));
             $text = trim($this->getRequest()->getPost('text'));
+            $show = trim($this->getRequest()->getPost('calendarShow'));
+            
+            if ($this->getRequest()->getPost('end') != '') {
+                $end = new \Ilch\Date(trim($this->getRequest()->getPost('end')));                
+            }
 
             if (!empty($_FILES['image']['name'])) {
                 $path = $this->getConfig()->get('event_uploadpath');
@@ -76,10 +79,10 @@ class Index extends \Ilch\Controller\Frontend
                     $height = $size[1];
 
                     if ($file_size <= $imageSize AND $width == $imageWidth AND $height == $imageHeight) {
-                        $image = $path.$title.'-'.time().'.'.$endung;
+                        $image = $path.time().'.'.$endung;
 
                         if ($this->getRequest()->getParam('id') AND $event->getImage() != '') {
-                            $eventMapper->delImageById($this->getUser()->getId());
+                            $eventMapper->delImageById($this->getRequest()->getParam('id'));
                         }
 
                         $eventModel->setImage($image);
@@ -95,7 +98,7 @@ class Index extends \Ilch\Controller\Frontend
                 }
             }
 
-            if (empty($dateCreated)) {
+            if (empty($start)) {
                 $this->addMessage('missingDate', 'danger');
             } elseif(empty($title)) {
                 $this->addMessage('missingTitle', 'danger');
@@ -109,13 +112,20 @@ class Index extends \Ilch\Controller\Frontend
                 }
                 $eventModel->setUserId($this->getUser()->getId());
                 $eventModel->setTitle($title);
-                $eventModel->setDateCreated($dateCreated);
+                $eventModel->setStart($start);
+                $eventModel->setEnd($end);
                 $eventModel->setPlace($place);
                 $eventModel->setText($text);
-                $eventModel->setShow(trim($this->getRequest()->getPost('calendarShow')));
+                $eventModel->setShow($show);
                 $eventMapper->save($eventModel);
 
                 $this->addMessage('saveSuccess');
+
+                if ($this->getRequest()->getPost('image_delete') != '') {
+                    $eventMapper->delImageById($this->getRequest()->getParam('id'));
+
+                    $this->redirect(array('action' => 'treat', 'id' => $this->getRequest()->getParam('id')));
+                }
 
                 if ($this->getRequest()->getParam('id')) {
                     $eventId = $this->getRequest()->getParam('id');
@@ -146,6 +156,6 @@ class Index extends \Ilch\Controller\Frontend
             $this->addMessage('deleteSuccess');
         }
 
-            $this->redirect(array('controller' => 'index', 'action' => 'index'));
+        $this->redirect(array('controller' => 'index', 'action' => 'index'));
     }
 }
