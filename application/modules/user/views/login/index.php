@@ -1,4 +1,26 @@
 <?php $config = \Ilch\Registry::get('config'); ?>
+
+
+<?php
+define('FACEBOOK_SDK_V4_SRC_DIR', APPLICATION_PATH .'/modules/user/static/fb/src/Facebook/');
+require( APPLICATION_PATH . '/modules/user/static/fb/src/Facebook/autoload.php');
+//require_once __DIR__ . '/path/to/facebook-php-sdk-v4/src/Facebook/autoload.php';
+
+$fb = new Facebook\Facebook([
+  'app_id' => '1494626184167624',
+  'app_secret' => 'c86c8c5b925b77a4378c75e5ed23b5c6',
+  'default_graph_version' => 'v2.4',
+]);
+
+$helper = $fb->getRedirectLoginHelper();
+
+$permissions = ['email']; // Optional permissions
+$loginUrl = $helper->getLoginUrl('https://example.com/fb-callback.php', $permissions);
+
+echo '<a href="' . htmlspecialchars($loginUrl) . '">Log in with Facebook!</a>';
+/*
+?>
+
 <!-- facebook login -->
 <script> 
 function checkLoginState() {
@@ -56,7 +78,8 @@ function fb_login(){
     document.getElementById('fb-root').appendChild(e);
 }()); 
 */
-</script>
+?>
+<!--/script-->
 
 <!-- Google+ login -->
 <script src="https://apis.google.com/js/api:client.js"></script>
