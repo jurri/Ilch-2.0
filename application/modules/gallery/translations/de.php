@@ -31,6 +31,7 @@ return array
     'galleryItemAdd' => 'Hinzufügen',
     'menuGalleryOverview' => 'Galerie Übersicht',
     'comments' => 'Kommentare',
+    'reply' => 'Antworten',
     'submit' => 'Eintragen',
     'images' => 'Bilder',
     'image' => 'Bild',
@@ -41,5 +42,4 @@ return array
     'commentPost' => 'Kommentar schreiben',
     'from' => 'Von',
     'on' => 'Am',
-    
 );
