@@ -15,12 +15,15 @@
         <?=$this->getTrans('logout') ?>
     </a>
 <?php else: ?>
-    <?php /*
+    
+        
+        
     <link rel="stylesheet" href="<?php echo BASE_URL.'/application/modules/user/static/css/reset.css'; ?>"> <!-- CSS reset -->
     <link rel="stylesheet" href="<?php echo BASE_URL.'/application/modules/user/static/css/style.css'; ?>"> <!-- Gem style -->
     <script src="<?php echo BASE_URL.'/application/modules/user/static/js/modernizr.js'; ?>"></script> <!-- Modernizr -->
-     */
-    ?>
+     
+    
+    
     <form action="" class="form-horizontal" method="post">
         <?=$this->getTokenField();
         $errors = $this->get('errors');
@@ -63,7 +66,7 @@
         </div>
     </form>
     <a href="<?=$this->getUrl(array('module' => 'user', 'controller' => 'login', 'action' => 'forgotpassword')) ?>"><?=$this->getTrans('forgotPassword') ?></a>
-	<?php /*
+	
         <div class="cd-user-modal"> <!-- this is the entire modal form, including the background -->
 		<div class="cd-user-modal-container"> <!-- this is the container wrapper -->
 			<ul class="cd-switcher">
@@ -130,5 +133,5 @@
 		</div> <!-- cd-user-modal-container -->
 	</div> <!-- cd-user-modal -->       
     <script src="<?php echo BASE_URL.'/application/modules/user/static/js/main.js'; ?>"></script> <!-- Gem jQuery -->  
-         */ ?>   
+          
 <?php endif; ?>

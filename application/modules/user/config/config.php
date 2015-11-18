@@ -105,6 +105,8 @@ CREATE TABLE IF NOT EXISTS `[prefix]_users` (
     `confirmed` int(11) DEFAULT 1,
     `confirmed_code` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
     `strregist` varchar(255) DEFAULT 'HP',
+    `oauth_provider` varchar(255) COLLATE utf8_unicode_ci,
+    `oauth_uid` varchar(255) COLLATE utf8_unicode_ci,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
 

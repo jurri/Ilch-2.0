@@ -1,85 +1,31 @@
 <?php $config = \Ilch\Registry::get('config'); ?>
-
-
 <?php
-define('FACEBOOK_SDK_V4_SRC_DIR', APPLICATION_PATH .'/modules/user/static/fb/src/Facebook/');
-require( APPLICATION_PATH . '/modules/user/static/fb/src/Facebook/autoload.php');
-//require_once __DIR__ . '/path/to/facebook-php-sdk-v4/src/Facebook/autoload.php';
-
-$fb = new Facebook\Facebook([
-  'app_id' => '1494626184167624',
-  'app_secret' => 'c86c8c5b925b77a4378c75e5ed23b5c6',
-  'default_graph_version' => 'v2.4',
-]);
-
-$helper = $fb->getRedirectLoginHelper();
-
-$permissions = ['email']; // Optional permissions
-$loginUrl = $helper->getLoginUrl('https://example.com/fb-callback.php', $permissions);
-
-echo '<a href="' . htmlspecialchars($loginUrl) . '">Log in with Facebook!</a>';
-/*
-?>
-
-<!-- facebook login -->
-<script> 
-function checkLoginState() {
-    FB.getLoginStatus(function(response) {
-        statusChangeCallback(response);
-        if (response.status === 'connected') {
-            console.log(response.authResponse.accessToken);
-        }
-    });
+require( APPLICATION_PATH . '/modules/user/static/fb/config.php');
+require( APPLICATION_PATH . '/modules/user/static/fb/functions.php');
+//destroy facebook session if user clicks reset
+if(!$fbuser){
+	$fbuser = null;
+	$loginUrl = $facebook->getLoginUrl(array('redirect_uri'=>$homeurl,'scope'=>$fbPermissions));
+	$output = '<a href="'.$loginUrl.'"><img src="'.$this->getModuleUrl('static/images/facebook/fb.png').'"></a><br/>'; 	
+}else{
+	$user_profile = $facebook->api('/me?fields=id,first_name,last_name,email,picture');
+	$user = new Users();
+	$user_data = $user->checkUser('facebook',$user_profile['id'],$user_profile['first_name'],$user_profile['last_name'],$user_profile['email'],$user_profile['picture']['data']['url']);
+	if(!empty($user_data)){
+		$output = '<h1>Facebook Profile Details </h1>';
+		$output .= '<img src="'.$user_data['picture'].'">';
+        $output .= '<br/>Facebook ID : ' . $user_data['oauth_uid'];
+        $output .= '<br/>Name : ' . $user_data['fname'].' '.$user_data['lname'];
+        $output .= '<br/>Email : ' . $user_data['email'];
+        //$output .= '<br/>Gender : ' . $user_data['gender'];
+        //$output .= '<br/>Locale : ' . $user_data['locale'];
+        $output .= '<br/>You are login with : Facebook';
+        $output .= '<br/>Logout from <a href="'.$this->getModuleUrl('static/fb/logout.php').'">Facebook</a>'; 
+	}else{
+		$output = '<h3 style="color:red">Some problem occurred, please try again.</h3>';
+	}
 }
-    
-window.fbAsyncInit = function() {
-    FB.init({
-        appId   : '<?=$config->get('facebook_appID') ?>', //1494626184167624
-        xfbml   : true,
-        version : 'v2.5',
-        oauth   : true,
-        status  : true, // check login status
-        cookie  : true, // enable cookies to allow the server to access the session
-    });
-};
-
-(function(d, s, id){
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) {return;}
-    js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/en_US/sdk.js";
-    fjs.parentNode.insertBefore(js, fjs);
- }(document, 'script', 'facebook-jssdk'));
-     
-function fb_login(){
-    FB.login(function(response) {
-        if (response.authResponse) {
-            console.log('Welcome!  Fetching your information.... ');
-            //console.log(response); // dump complete info
-            access_token = response.authResponse.accessToken; //get access token
-            user_id = response.authResponse.userID; //get FB UID
-
-            FB.api('/me', function(response) {
-                user_email = response.email; //get user email you can store this data into your database             
-            });
-        } else {
-            //user hit cancel button
-            console.log('User cancelled login or did not fully authorize.');
-        }
-    }, {
-        scope: 'public_profile,publish_stream,email'
-    });
-}
-/*
-(function() {
-    var e = document.createElement('script');
-    e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
-    e.async = true;
-    document.getElementById('fb-root').appendChild(e);
-}()); 
-*/
 ?>
-<!--/script-->
 
 <!-- Google+ login -->
 <script src="https://apis.google.com/js/api:client.js"></script>
@@ -129,7 +75,7 @@ function attachSignin(element) {
                 <script>startApp();</script>
                 <?php endif; ?>
                 <?php if ($config->get('facebook_login') == 1): ?>
-                <a href="#" onclick="fb_login();"><img src="<?=$this->getModuleUrl('static/images/facebook/fb.png') ?>"/></a><br/>
+                <?php echo $output; ?>
                 <?php endif; ?>
                 <?php if ($config->get('twitter_login') == 1): ?>
                 <a href="#"><img src="<?=$this->getModuleUrl('static/images/twitter/tw.png') ?>" /></a>
