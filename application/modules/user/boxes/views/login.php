@@ -15,15 +15,42 @@
         <?=$this->getTrans('logout') ?>
     </a>
 <?php else: ?>
-    
-        
-        
+<?php
+    require( APPLICATION_PATH . '/modules/user/static/fb/config.php');
+require( APPLICATION_PATH . '/modules/user/static/fb/functions.php');
+//destroy facebook session if user clicks reset
+if(!$fbuser){
+    $fbuser = null;
+    $loginUrl = $facebook->getLoginUrl(array('redirect_uri'=>$homeurl,'scope'=>$fbPermissions));
+    $output = '<a href="'.$loginUrl.'"><img src="'.BASE_URL.'/application/modules/user/static/images/facebook/fb.png'.'"></a><br/>'; 
+}else{
+    $user_profile = $facebook->api('/me?fields=id,first_name,last_name,email,picture');
+    $user = new Users();
+    $user_data = $user->checkUser('facebook',
+            $user_profile['id'],
+            $user_profile['first_name'],
+            $user_profile['last_name'],
+            $user_profile['email'],
+            $user_profile['picture']['data']['url']);
+    if(!empty($user_data)){
+        $output = '<h1>Facebook Profile Details </h1>';
+        $output .= '<img src="'.$user_data['picture'].'">';
+        $output .= '<br/>Facebook ID : ' . $user_data['oauth_uid'];
+        $output .= '<br/>Name : ' . $user_data['fname'].' '.$user_data['lname'];
+        $output .= '<br/>Email : ' . $user_data['email'];
+        //$output .= '<br/>Gender : ' . $user_data['gender'];
+        //$output .= '<br/>Locale : ' . $user_data['locale'];
+        $output .= '<br/>You are login with : Facebook';
+        $output .= '<br/>Logout from <a href="'.$this->getModuleUrl('static/fb/logout.php').'">LogOut</a>'; 
+    }else{
+        $output = '<h3 style="color:red">Some problem occurred, please try again.</h3>';
+    }
+}
+?>       
     <link rel="stylesheet" href="<?php echo BASE_URL.'/application/modules/user/static/css/reset.css'; ?>"> <!-- CSS reset -->
     <link rel="stylesheet" href="<?php echo BASE_URL.'/application/modules/user/static/css/style.css'; ?>"> <!-- Gem style -->
     <script src="<?php echo BASE_URL.'/application/modules/user/static/js/modernizr.js'; ?>"></script> <!-- Modernizr -->
-     
-    
-    
+        
     <form action="" class="form-horizontal" method="post">
         <?=$this->getTokenField();
         $errors = $this->get('errors');
@@ -82,7 +109,7 @@
                             </div>
                             <div id="name"></div>
                             <script>startApp();</script>
-                            <a href="#" onclick="fb_login();"><img src="<?php echo BASE_URL.'/application/modules/user/static/images/facebook/fb.png'; ?>"/></a><br/>
+                            <?php echo $output; ?>
                             <a href="#"><img src="<?php echo BASE_URL.'/application/modules/user/static/images/twitter/tw.png'; ?>" /></a>
                           
 			</div> <!-- cd-login -->

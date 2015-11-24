@@ -1,9 +1,10 @@
+<?php $config = \Ilch\Registry::get('config'); ?>
 <?php
 require( APPLICATION_PATH . '/modules/user/static/fb/facebook.php'); //include facebook SDK
 ######### Facebook API Configuration ##########
-$appId = '968563509849818'; //Facebook App ID
-$appSecret = '92dd22daefd4b5b5bd934b4827430032'; // Facebook App Secret
-$homeurl = 'http://treehawk.de/_hp/_dev/fblogin/';  //return to home
+$appId = $config->get('facebook_appID'); //Facebook App ID
+$appSecret = $config->get('facebook_appSecret'); // Facebook App Secret
+$homeurl = 'http://treehawk.de/_hp/ds/index.php/user/login/fblogin';//APPLICATION_PATH;  //return to home
 $fbPermissions = 'email';  //Required facebook permissions
 
 //Call Facebook API
