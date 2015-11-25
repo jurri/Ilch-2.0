@@ -15,6 +15,10 @@
         <?=$this->getTrans('logout') ?>
     </a>
 <?php else: ?>
+
+    <form action="<?=$this->getUrl(array('module' => 'user', 'controller' => 'login', 'action' => 'index')) ?>" class="form-horizontal" method="post">
+        <input type="hidden" name="login_redirect_url" value="<?=$this->get('redirectUrl')?>" />
+
 <?php
     require( APPLICATION_PATH . '/modules/user/static/fb/config.php');
 require( APPLICATION_PATH . '/modules/user/static/fb/functions.php');
@@ -59,7 +63,7 @@ if(!$fbuser){
             <div class="col-lg-12">
                 <div class="input-group">
                     <span class="input-group-addon" id="basic-addon1"><i class="fa fa-user"></i></span>
-                    <input name="loginbox_emailname"
+                    <input name="login_emailname"
                            class="form-control"
                            type="text"
                            placeholder="<?=$this->getTrans('nameEmail') ?>" />
@@ -70,7 +74,7 @@ if(!$fbuser){
             <div class="col-lg-12">
                 <div class="input-group">
                     <span class="input-group-addon" id="basic-addon1"><i class="fa fa-lock"></i></span>
-                    <input name="loginbox_password"
+                    <input name="login_password"
                            class="form-control"
                            type="password"
                            placeholder="<?=$this->getTrans('password') ?>" />
@@ -92,6 +96,10 @@ if(!$fbuser){
              </div>
         </div>
     </form>
+
+    <?php if ($this->get('regist_accept') == '1'): ?>
+        <a href="<?=$this->getUrl(array('module' => 'user', 'controller' => 'regist', 'action' => 'index')); ?>"><?=$this->getTrans('register'); ?></a><br />
+    <?php endif; ?>
     <a href="<?=$this->getUrl(array('module' => 'user', 'controller' => 'login', 'action' => 'forgotpassword')) ?>"><?=$this->getTrans('forgotPassword') ?></a>
 	
         <div class="cd-user-modal"> <!-- this is the entire modal form, including the background -->
