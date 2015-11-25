@@ -199,6 +199,7 @@ return array
     'profileSignature' => 'Signatur',
     'profilePassword' => 'Passwort',
     'profileSubmit' => 'Absenden',
+    'acceptNewsletter' => 'Newsletter erhalten ?',
 
     'menuMail' => 'E-Mail',
     'mailTo' => 'E-Mail an',

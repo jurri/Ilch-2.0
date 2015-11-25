@@ -126,6 +126,13 @@ class User extends \Ilch\Model
      * @var string
      */
     protected $confirmedCode;
+    
+    /**
+     * Confirmed Code of the user.
+     *
+     * @var int
+     */
+    protected $bolnewsletter;
 
     /**
      * The associated user group object.
@@ -573,6 +580,29 @@ class User extends \Ilch\Model
     public function setBirthday($birthday)
     {
         $this->birthday = $birthday;
+
+        return $this;
+    }
+    
+    /**
+     * Returns the bolnewsletter of the user.
+     *
+     * @return int
+     */
+    public function getNewsletter()
+    {
+        return $this->bolnewsletter;
+    }
+
+    /**
+     * Saves the bolnewsletter of the user.
+     *
+     * @param int $bolnewsletter
+     * @return User
+     */
+    public function setNewsletter($bolnewsletter)
+    {
+        $this->bolnewsletter = (string)$bolnewsletter;
 
         return $this;
     }

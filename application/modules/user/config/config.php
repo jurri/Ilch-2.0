@@ -109,6 +109,7 @@ CREATE TABLE IF NOT EXISTS `[prefix]_users` (
     `strregist` varchar(255) DEFAULT 'HP',
     `oauth_provider` varchar(255) COLLATE utf8_unicode_ci,
     `oauth_uid` varchar(255) COLLATE utf8_unicode_ci,
+    `bolnewsletter` int(11) DEFAULT 1,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
 
