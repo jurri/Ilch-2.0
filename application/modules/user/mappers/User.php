@@ -283,7 +283,7 @@ class User extends \Ilch\Mapper
             $fields['confirmed'] = $confirmed;
         }
 
-        if ($bolnewsletter !== null) {
+        if ($confirmedCode !== null) {
             $fields['confirmed_code'] = $confirmedCode;
         }
 
