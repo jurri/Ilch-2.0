@@ -25,6 +25,15 @@ class Settings extends BaseController
             $this->getConfig()->set('regist_rules', $this->getRequest()->getPost('regist_rules'));
             $this->getConfig()->set('regist_confirm_mail', $this->getRequest()->getPost('regist_confirm_mail'));
             $this->getConfig()->set('password_change_mail', $this->getRequest()->getPost('password_change_mail'));
+            $this->getConfig()->set('facebook_login', $this->getRequest()->getPost('facebook_login'));
+            $this->getConfig()->set('facebook_appID', $this->getRequest()->getPost('facebook_appID'));
+            $this->getConfig()->set('facebook_appSecret', $this->getRequest()->getPost('facebook_appSecret'));
+            $this->getConfig()->set('google_login', $this->getRequest()->getPost('google_login'));
+            $this->getConfig()->set('google_appID', $this->getRequest()->getPost('google_appID'));
+            $this->getConfig()->set('google_appSecret', $this->getRequest()->getPost('google_appSecret'));
+            $this->getConfig()->set('twitter_login', $this->getRequest()->getPost('twitter_login'));
+            $this->getConfig()->set('twitter_appID', $this->getRequest()->getPost('twitter_appID'));
+            $this->getConfig()->set('twitter_appSecret', $this->getRequest()->getPost('twitter_appSecret'));
             $this->addMessage('saveSuccess');
         }
         
@@ -37,5 +46,14 @@ class Settings extends BaseController
         $this->getView()->set('regist_rules', $this->getConfig()->get('regist_rules'));
         $this->getView()->set('regist_confirm_mail', $this->getConfig()->get('regist_confirm_mail'));
         $this->getView()->set('password_change_mail', $this->getConfig()->get('password_change_mail'));
+        $this->getView()->set('facebook_login', $this->getConfig()->get('facebook_login'));
+        $this->getView()->set('facebook_appID', $this->getConfig()->get('facebook_appID'));
+        $this->getView()->set('facebook_appSecret', $this->getConfig()->get('facebook_appSecret'));
+        $this->getView()->set('google_login', $this->getConfig()->get('google_login'));
+        $this->getView()->set('google_appID', $this->getConfig()->get('google_appID'));
+        $this->getView()->set('google_appSecret', $this->getConfig()->get('google_appSecret'));
+        $this->getView()->set('twitter_login', $this->getConfig()->get('twitter_login'));
+        $this->getView()->set('twitter_appID', $this->getConfig()->get('twitter_appID'));
+        $this->getView()->set('twitter_appSecret', $this->getConfig()->get('twitter_appSecret'));
     }
 }
