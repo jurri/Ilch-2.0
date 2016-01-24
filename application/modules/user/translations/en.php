@@ -167,7 +167,6 @@ return array
     'dialog' => 'Messages',
     'noDialog' => 'No Messages available.',
     'menuPanel' => 'User Panel',
-    'menuSettings' => 'Settings',
     'menuSetting' => 'Setting',
     'menuSettingsAvatar' => 'Avatar',
     'menuEditProfile' => 'Profile',

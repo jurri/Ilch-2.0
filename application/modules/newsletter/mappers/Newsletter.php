@@ -189,4 +189,45 @@ class Newsletter extends \Ilch\Mapper
                 ->where(array('id' => $id))
                 ->execute();
     }
+    
+    /**
+     * Gets the Newsletter entries.
+     *
+     * @param array $where
+     * @return NewsletterModel[]|array
+     */
+    public function getSendMailUser()
+    {
+        return $this->db()->select()
+                ->fields(['nm.email'])
+                ->from(['nm' => 'newsletter_mails'])
+                ->join(['u' => 'users'], 'u.email = nm.email', 'LEFT', ['name' => 'u.name'])
+                ->execute()
+                ->fetchRows();
+    }
+
+    /**
+     * Insert Mail to Newsletter
+     */
+    public function saveUserEmail(NewsletterModel $newsletter)
+    {
+        $userRow = $this->db()->select('email')
+                ->from('users')
+                ->where(array('id' => $newsletter->getId()))
+                ->execute()
+                ->fetchRows();
+        $userMail = $userRow[0]['email'];
+        
+        $newsletterMail = $this->countEmails($userMail);
+
+        if ($newsletterMail == '0') {
+            $this->db()->insert('newsletter_mails')
+                ->values(array('email' => $userMail))
+                ->execute();
+        } else {
+            $this->db()->delete('newsletter_mails')
+                ->where(array('email' => $userMail))
+                ->execute();
+        }
+    }
 }

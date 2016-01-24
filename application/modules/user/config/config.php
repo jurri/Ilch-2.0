@@ -147,6 +147,13 @@ CREATE TABLE IF NOT EXISTS `[prefix]_user_menu` (
     `title` varchar(255) NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
+
+CREATE TABLE IF NOT EXISTS `[prefix]_user_menu_settings_links` (
+    `key` varchar(255) NOT NULL,
+    `locale` varchar(255) NOT NULL,
+    `description` varchar(255) NOT NULL,
+    `name` varchar(255) NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
                 
 INSERT INTO `[prefix]_user_menu` (`id`, `key`, `title`) VALUES
 (1, "user/panel/index", "Panel"),
