@@ -6,6 +6,7 @@
 
 namespace Modules\Away\Models;
 
+
 class Away extends \Ilch\Model
 {
     /**
