@@ -31,6 +31,66 @@
             </div>
         </div>
     </div>
+    <div class="form-group">
+        <label for="facebook_login" class="col-lg-2 control-label">
+            <?=$this->getTrans('acceptUserRegisFacebook') ?>:
+        </label>
+        <div class="col-lg-4">
+            <div class="flipswitch">
+                <input type="radio" class="flipswitch-input" name="facebook_login" value="1" id="regist-accept-facebook-yes" <?php if ($this->get('facebook_login') == '1') { echo 'checked="checked"'; } ?> />  
+                <label for="regist-accept-facebook-yes" class="flipswitch-label flipswitch-label-on"><?=$this->getTrans('yes') ?></label>
+                <input type="radio" class="flipswitch-input" name="facebook_login" value="0" id="regist-accept-facebook-no" <?php if ($this->get('facebook_login') != '1') { echo 'checked="checked"'; } ?> />  
+                <label for="regist-accept-facebook-no" class="flipswitch-label flipswitch-label-off"><?=$this->getTrans('no') ?></label>
+                <span class="flipswitch-selection"></span>
+            </div>
+        </div>
+    </div>
+    <div id="fblogin" <?php if ($this->get('facebook_login') != '1') { echo 'class="hidden"'; } ?>>
+        <div class="form-group">
+            <input type="text" name="facebook_appID" value="<?=$this->get('facebook_appID') ?>" class="form-control" placeholder="facebook AppID">
+            <input type="text" name="facebook_appSecret" value="<?=$this->get('facebook_appSecret') ?>" class="form-control" placeholder="facebook Secret">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="google_login" class="col-lg-2 control-label">
+            <?=$this->getTrans('acceptUserRegisGoogle') ?>:
+        </label>
+        <div class="col-lg-4">
+            <div class="flipswitch">
+                <input type="radio" class="flipswitch-input" name="google_login" value="1" id="regist-accept-google-yes" <?php if ($this->get('google_login') == '1') { echo 'checked="checked"'; } ?> />  
+                <label for="regist-accept-google-yes" class="flipswitch-label flipswitch-label-on"><?=$this->getTrans('yes') ?></label>
+                <input type="radio" class="flipswitch-input" name="google_login" value="0" id="regist-accept-google-no" <?php if ($this->get('google_login') != '1') { echo 'checked="checked"'; } ?> />  
+                <label for="regist-accept-google-no" class="flipswitch-label flipswitch-label-off"><?=$this->getTrans('no') ?></label>
+                <span class="flipswitch-selection"></span>
+            </div>
+        </div>
+    </div>
+    <div id="googlelogin" <?php if ($this->get('google_login') != '1') { echo 'class="hidden"'; } ?>>
+        <div class="form-group">
+            <input type="text" name="google_appID" value="<?=$this->get('google_appID') ?>" class="form-control" placeholder="google+ AppID">
+            <input type="text" name="google_appSecret" value="<?=$this->get('google_appSecret') ?>" class="form-control" placeholder="google+ Secret">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="twitter_login" class="col-lg-2 control-label">
+            <?=$this->getTrans('acceptUserRegisTwitter') ?>:
+        </label>
+        <div class="col-lg-4">
+            <div class="flipswitch">
+                <input type="radio" class="flipswitch-input" name="twitter_login" value="1" id="regist-accept-twitter-yes" <?php if ($this->get('twitter_login') == '1') { echo 'checked="checked"'; } ?> />  
+                <label for="regist-accept-twitter-yes" class="flipswitch-label flipswitch-label-on"><?=$this->getTrans('yes') ?></label>
+                <input type="radio" class="flipswitch-input" name="twitter_login" value="0" id="regist-accept-twitter-no" <?php if ($this->get('twitter_login') != '1') { echo 'checked="checked"'; } ?> />  
+                <label for="regist-accept-twitter-no" class="flipswitch-label flipswitch-label-off"><?=$this->getTrans('no') ?></label>
+                <span class="flipswitch-selection"></span>
+            </div>
+        </div>
+    </div>
+    <div id="twitterlogin" <?php if ($this->get('twitter_login') != '1') { echo 'class="hidden"'; } ?>>
+        <div class="form-group">
+            <input type="text" name="twitter_appID" value="<?=$this->get('twitter_appID') ?>" class="form-control" placeholder="twitter AppID">
+            <input type="text" name="twitter_appSecret" value="<?=$this->get('twitter_appSecret') ?>" class="form-control" placeholder="twitter Secret">
+        </div>
+    </div>
     <div id="rulesForRegist" <?php if ($this->get('regist_accept') != '1') { echo 'class="hidden"'; } ?>>
         <div class="form-group">
             <label for="regist_rules" class="col-lg-2 control-label">
@@ -189,6 +249,30 @@ $('[name="regist_confirm"]').click(function () {
         $('#confirmMail').removeClass('hidden');
     } else {
         $('#confirmMail').addClass('hidden');
+    }
+});
+
+$('[name="facebook_login"]').click(function () {
+    if ($(this).val() == "1") {
+        $('#fblogin').removeClass('hidden');
+    } else {
+        $('#fblogin').addClass('hidden');
+    }
+});
+
+$('[name="google_login"]').click(function () {
+    if ($(this).val() == "1") {
+        $('#googlelogin').removeClass('hidden');
+    } else {
+        $('#googlelogin').addClass('hidden');
+    }
+});
+
+$('[name="twitter_login"]').click(function () {
+    if ($(this).val() == "1") {
+        $('#twitterlogin').removeClass('hidden');
+    } else {
+        $('#twitterlogin').addClass('hidden');
     }
 });
 </script>

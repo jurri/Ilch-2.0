@@ -605,6 +605,29 @@ class User extends \Ilch\Model
 
         return $this;
     }
+    
+    /**
+     * Returns the bolnewsletter of the user.
+     *
+     * @return int
+     */
+    public function getNewsletter()
+    {
+        return $this->bolnewsletter;
+    }
+
+    /**
+     * Saves the bolnewsletter of the user.
+     *
+     * @param int $bolnewsletter
+     * @return User
+     */
+    public function setNewsletter($bolnewsletter)
+    {
+        $this->bolnewsletter = (string)$bolnewsletter;
+
+        return $this;
+    }
 
     /**
      * Checks if user has admin group.
