@@ -208,6 +208,10 @@ class User extends \Ilch\Mapper
             $user->setNewsletter($userRow['bolnewsletter']);
         }
 
+        if (isset($userRow['opt_gallery'])) {
+            $user->setOptGallery($userRow['opt_gallery']);
+        }
+
         if (isset($userRow['date_created'])) {
             $dateCreated = new IlchDate($userRow['date_created']);
             $user->setDateCreated($dateCreated);
@@ -295,34 +299,7 @@ class User extends \Ilch\Mapper
         $fields['avatar'] = $user->getAvatar();
         $fields['signature'] = $user->getSignature();
         $fields['opt_mail'] = $user->getOptMail();
-        $fields['bolnewsletter'] = $bolnewsletter;
-        
-        /**
-         * Insert Mail to Newsletter
-         */
-        if ($bolnewsletter == '1') {    
-            $userRows = $this->db()->select('email')
-                ->from('users')
-                ->where(array('id' => $user->getId()))
-                ->execute()
-                ->fetchRows();
-            
-            $field_newsletter['email'] = $userRows[0]['email'];
-
-            $this->db()->insert('newsletter_mails')
-                ->values($field_newsletter)
-                ->execute();
-        }else{
-            $userRows = $this->db()->select('email')
-                ->from('users')
-                ->where(array('id' => $user->getId()))
-                ->execute()
-                ->fetchRows();
-            
-            $this->db()->delete('newsletter_mails')
-                ->where(array('email' => $userRows[0]['email']))
-                ->execute();
-        }
+        $fields['opt_gallery'] = $user->getOptGallery();
 
         $userId = (int)$this->db()->select('id')
             ->from('users')
@@ -432,6 +409,18 @@ class User extends \Ilch\Mapper
         }
 
         $this->db()->delete('users_groups')
+            ->where(array('user_id' => $userId))
+            ->execute();
+
+        $this->db()->delete('users_gallery_imgs')
+            ->where(array('user_id' => $userId))
+            ->execute();
+
+        $this->db()->delete('users_gallery_items')
+            ->where(array('user_id' => $userId))
+            ->execute();
+
+        $this->db()->delete('users_media')
             ->where(array('user_id' => $userId))
             ->execute();
 

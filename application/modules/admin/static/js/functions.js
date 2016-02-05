@@ -27,13 +27,16 @@ $(document).ready(function(){
         $('#search-div').addClass('opens');
     };
 
-    document.getElementById('search-header').onclick = function() {
-        if($('#search-div').hasClass('opens')){
-            removeSearch();
-        }else {
-            addSearch();
-        }
-    };
+    var element = document.getElementById('search-header');
+    if (typeof(element) !== 'undefined' && element !== null) {
+        document.getElementById('search-header').onclick = function() {
+            if($('#search-div').hasClass('opens')){
+                removeSearch();
+            }else {
+                addSearch();
+            }
+        };
+    }
 });
 
 $(document).ready
@@ -45,11 +48,11 @@ $(document).ready
             function()
             {
                 if ($(this).data('hiddenkey') == 'setfree') {
-                    txt = 'Sollen die markierten Einträge wirklich freigeschalten werden ?'
+                    txt = 'Sollen die markierten Einträge wirklich freigeschaltet werden?'
                 }
 
                 if ($(this).data('hiddenkey') == 'delete') {
-                    txt = 'Sollen die markierten Einträge wirklich gelöscht werden ?'
+                    txt = 'Sollen die markierten Einträge wirklich gelöscht werden?'
                 }
 
                 if (confirm(txt)) {
@@ -71,7 +74,7 @@ $(document).ready
         (
             function(event)
             {
-                if (!confirm("Sollen der Eintrag wirklich gelöscht werden ?")) {
+                if (!confirm("Sollen der Eintrag wirklich gelöscht werden?")) {
                     event.preventDefault();
                 }
             }
@@ -83,19 +86,22 @@ $(document).ready
 (
     function() 
     {
-        $(window).scrollTop(0);
-        var headerTop = $('#header').offset().top;
+        var element = document.getElementById('header');
+        if (typeof(element) !== 'undefined' && element !== null) {
+            $(window).scrollTop(0);
+            var headerTop = $('#header').offset().top;
 
-        $(window).scroll
-        (
-            function()
-            {
-                if($(window).scrollTop() > headerTop){
-                    $('#left-panel').css('padding', '0px');
-                } else {
-                    $('#left-panel').css('padding', '40px 0 0');
+            $(window).scroll
+            (
+                function()
+                {
+                    if($(window).scrollTop() > headerTop){
+                        $('#left-panel').css('padding', '0px');
+                    } else {
+                        $('#left-panel').css('padding', '40px 0 0');
+                    }
                 }
-            }
-        );
+            );
+        }
     }
 );
