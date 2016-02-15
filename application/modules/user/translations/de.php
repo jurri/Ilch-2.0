@@ -234,4 +234,11 @@ return array
     'drag' => 'Drag & Drop Dateien hier',
 
     'saveButton' => 'Speichern',
+
+    'menuProfilfields' => 'Profilfelder',
+    'menuActionNewProfilfields' => 'Neue Profilfelder hinzufügen',
+    'editProfilfields' => 'Profilfelder editieren',
+    'addProfilfields' => 'Profilfelder hinzufügen',
+    'profilfieldName' => 'ProfilfeldName',
+    'profilfieldIcon' => 'Profilfeldicon',
 );

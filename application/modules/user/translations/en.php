@@ -234,4 +234,12 @@ return array
     'drag' => 'drag and drop files here',
 
     'saveButton' => 'Save',
+
+    'menuProfilfields' => 'Profilfields',
+    'menuActionNewProfilfields' => 'Create new profilfields',
+    'editProfilfields' => 'Edit profilfields',
+    'addProfilfields' => 'Create profilfields',
+    'profilfieldTitle' => 'Profilfield name',
+    'profilfieldIcon' => 'Profilfield icon',
+
 );

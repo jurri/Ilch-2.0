@@ -218,6 +218,14 @@ CREATE TABLE IF NOT EXISTS `[prefix]_profile_trans` (
     `locale` varchar(255) NOT NULL,
     `name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `[prefix]_users_profilfields` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `group_id` int(11) NOT NULL,
+    `name` varchar(255) NOT NULL,
+    `icon` varchar(255) NOT NULL DEFAULT 0,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
 SQL;
     }
 }
